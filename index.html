@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<title>Gaming Table Controller</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body class="w3-black">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+  <div class="play w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-play w3-xxlarge"></i>
+    <p>PLAY</p>
+  </div>
+  <div class="pause w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-pause w3-xxlarge"></i>
+    <p>PAUSE</p>
+  </div>
+  <div class="stop w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-stop w3-xxlarge"></i>
+    <p>STOP</p>
+  </div>
+  <div class="shutdown w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-power-off w3-xxlarge"></i>
+    <p>SHUTDOWN</p>
+  </div>
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <div class="play w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-play w3-xxlarge"></i></div>
+    <div class="pause w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-pause w3-xxlarge"></i></div>
+    <div class="stop w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-stop w3-xxlarge"></i></div>
+    <div class="shutdown w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-power-off w3-xxlarge"></i></div>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+
+  <!-- Game Stats Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="gamestats">
+    <h1 class="w3-text-light-grey">Game Stats</h1>
+    <div class="state">
+      Round: <span id="round">?</span>
+    </div>
+  <!-- End Game Stats Section -->
+  </div>
+
+  <!-- Game Settings Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="gamesettings">
+    <h1 class="w3-text-light-grey">Game Settings</h1>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">Active Seats</h2>
+    <form>
+      <input type="checkbox" name="seats" value=1 checked id="seat1"> 1
+      <input type="checkbox" name="seats" value=2 checked id="seat2"> 2
+      <input type="checkbox" name="seats" value=3 checked id="seat3"> 3
+      <input type="checkbox" name="seats" value=4 checked id="seat4"> 4
+      <input type="checkbox" name="seats" value=5 checked id="seat5"> 5
+      <input type="checkbox" name="seats" value=6 checked id="seat6"> 6
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">Order</h2>
+    <form>
+      <input type="radio" name="order" value="cw" checked> Clockwise
+      <input type="radio" name="order" value="acw"> Anti-Clockwise
+      <input type="radio" name="order" value="spec"> Specific
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">Pass</h2>
+    <form>
+      <input type="radio" name="pass" value="n" checked> None
+      <input type="radio" name="pass" value="y"> End Round
+      <input type="radio" name="pass" value="reorder"> End Round and Reorder
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">Round Limit</h2>
+    <form>
+      <input class="w3-input w3-padding-6" type="number" name="rounds" min="0" max="20" value=0>
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <div class="state">
+      <span class="users">?</span> online
+    </div>
+  <!-- End Game Settings Section -->
+  </div>
+
+<!-- END PAGE CONTENT -->
+</div>
+
+<!-- SCRIPT SECTION -->
+<script>
+  var roundnr = document.querySelector('#round'),
+      play = document.querySelector('.play'),
+      pause = document.querySelector('.pause'),
+      stop = document.querySelector('.stop'),
+      shutdown = document.querySelector('.shutdown'),
+      seat1 = document.querySelector('#seat1'),
+      seat2 = document.querySelector('#seat2'),
+      seat3 = document.querySelector('#seat3'),
+      seat4 = document.querySelector('#seat4'),
+      seat5 = document.querySelector('#seat5'),
+      seat6 = document.querySelector('#seat6'),
+      users = document.querySelector('.users'),
+      websocket = new WebSocket("ws://127.0.0.1:6789/");
+  play.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'play', value1: 'pl', value2: ''}));
+  }
+  pause.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'pause', value1: 'pa', value2: ''}));
+  }
+  stop.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'stop', value1: 'st', value2: ''}));
+  }
+  shutdown.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'shutdown', value1: 'sd', value2: ''}));
+  }
+  seat1.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat1.value, value2: seat1.checked}));
+  }
+  seat2.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat2.value, value2: seat2.checked}));
+  }
+  seat3.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat3.value, value2: seat3.checked}));
+  }
+  seat4.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat4.value, value2: seat4.checked}));
+  }
+  seat5.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat5.value, value2: seat5.checked}));
+  }
+  seat6.onclick = function (event) {
+    websocket.send(JSON.stringify({action: 'seat', value1: seat6.value, value2: seat6.checked}));
+  }
+  websocket.onmessage = function (event) {
+    data = JSON.parse(event.data);
+    switch (data.type) {
+      case 'state':
+        roundnr.textContent = data.roundnr
+        break;
+      case 'users':
+        users.textContent = (data.count.toString() + " user" + (data.count == 1 ? "" : "s"));
+        break;
+      default:
+        console.error("unsupported event", data);
+    }
+  };
+
+<!-- END SCRIPT SECTION -->
+</script>
+
+</body>
+</html>

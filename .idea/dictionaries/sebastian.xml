@@ -1,6 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="sebastian">
     <words>
+      <w>asyncio</w>
+      <w>gpio</w>
+      <w>rgbw</w>
       <w>websocket</w>
     </words>
   </dictionary>

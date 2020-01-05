@@ -2,10 +2,10 @@ import gpio_button as button
 import gpio_led as led
 import websocket as web
 
-COLOR_OFF = [0, 0, 0, 0]
-COLOR_DEFAULT = [0, 0, 255, 0]
-COLOR_ACTIVE = [0, 255, 0, 0]
-COLOR_PASSED = [255, 146, 3, 0]
+COLOR_OFF = led.Color(0, 0, 0, 0)
+COLOR_DEFAULT = led.Color(0, 0, 255, 0)
+COLOR_ACTIVE = led.Color(0, 255, 0, 0)
+COLOR_PASSED = led.Color(255, 146, 0, 0)
 ROUND = 0
 START_SEAT = 0
 ACTIVE_SEAT = 0

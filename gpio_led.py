@@ -1,4 +1,3 @@
-import RPi.GPIO as GPIO
 from rpi_ws281x import Color, PixelStrip, ws
 
 # LED strip configuration:
@@ -18,7 +17,7 @@ SEAT_COUNT = 6
 SEAT_LED_START = []  # LED starting indexes per seat
 SEAT_LED_COUNT = []  # LED counts per seat
 
-strip = 0
+strip = PixelStrip(0, 0)
 COLORS = (Color(255, 0, 0, 0), Color(0, 255, 0, 0), Color(0, 0, 255, 0), Color(0, 0, 0, 255), Color(255, 255, 255, 255))
 
 

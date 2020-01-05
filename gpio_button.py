@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 
 # Button channels
-BUTTON_CH_1 = [4, 27, 23, 5, 16, 20]  # left buttons
-BUTTON_CH_2 = [17, 22, 24, 6, 26, 21]  # right buttons
+BUTTON_1_CHANNEL = [4, 27, 23, 5, 16, 20]  # left buttons
+BUTTON_2_CHANNEL = [17, 22, 24, 6, 26, 21]  # right buttons
 BUTTON_IDX_LEFT = 1
 BUTTON_IDX_RIGHT = 2
 
@@ -38,17 +38,19 @@ def init():
     GPIO.setmode(GPIO.BCM)
     global SEAT_IDX, BUTTON_IDX
     i = 0
-    while i < len(BUTTON_CH_1):
+    while i < len(BUTTON_1_CHANNEL):
         # add button channels with current seat
         seat_index = i + 1
-        SEAT_IDX[BUTTON_CH_1[i]] = seat_index
-        SEAT_IDX[BUTTON_CH_2[i]] = seat_index
+        channel_b1 = BUTTON_1_CHANNEL[i]
+        channel_b2 = BUTTON_2_CHANNEL[i]
+        SEAT_IDX[channel_b1] = seat_index
+        SEAT_IDX[channel_b2] = seat_index
         # add button channels with button index
-        BUTTON_IDX[BUTTON_CH_1[i]] = BUTTON_IDX_LEFT
-        BUTTON_IDX[BUTTON_CH_2[i]] = BUTTON_IDX_RIGHT
+        BUTTON_IDX[channel_b1] = BUTTON_IDX_LEFT
+        BUTTON_IDX[channel_b2] = BUTTON_IDX_RIGHT
         # setup channels
-        setup_button(BUTTON_CH_1[i])
-        setup_button(BUTTON_CH_2[i])
-        setup_button_interrupt(BUTTON_CH_1[i])
-        setup_button_interrupt(BUTTON_CH_2[i])
+        setup_button(channel_b1)
+        setup_button(channel_b2)
+        setup_button_interrupt(channel_b1)
+        setup_button_interrupt(channel_b2)
         i += 1

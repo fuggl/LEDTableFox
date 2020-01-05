@@ -12,7 +12,7 @@ def empty_consumer(action, value1, value2):
     print("{} {}".format(action, value1, value2))
 
 
-STATE = {"value": 0, "roundnr": 0}
+STATE = {"value": 0, "round_nr": 0}
 USERS = set()
 CONSUMER = empty_consumer
 

@@ -25,7 +25,7 @@ def lights_on():
 def next_round():
     global ROUND
     ROUND += 1
-    web.set_state("roundnr", ROUND)
+    web.set_state("round_nr", ROUND)
 
 
 def button_pressed(seat_idx, button_idx):

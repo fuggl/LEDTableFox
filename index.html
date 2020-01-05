@@ -40,7 +40,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 </nav>
 
 <!-- Navbar on small screens (Hidden on medium and large screens) -->
-<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+<div class="w3-top w3-hide-large w3-hide-medium" id="navbar">
   <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
     <div class="play w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-play w3-xxlarge"></i></div>
     <div class="pause w3-bar-item w3-button" style="width:25% !important"><i class="fa fa-pause w3-xxlarge"></i></div>
@@ -53,7 +53,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
 
   <!-- Game Stats Section -->
-  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="gamestats">
+  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="game_stats">
     <h1 class="w3-text-light-grey">Game Stats</h1>
     <div class="state">
       Round: <span id="round">?</span>
@@ -62,7 +62,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </div>
 
   <!-- Game Settings Section -->
-  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="gamesettings">
+  <div class="w3-content w3-justify w3-text-grey w3-padding-0" id="game_settings">
     <h1 class="w3-text-light-grey">Game Settings</h1>
     <hr style="width:200px" class="w3-opacity">
     <h2 class="w3-text-light-grey">Active Seats</h2>
@@ -105,7 +105,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 
 <!-- SCRIPT SECTION -->
 <script>
-  var roundnr = document.querySelector('#round'),
+  var round_nr = document.querySelector('#round'),
       play = document.querySelector('.play'),
       pause = document.querySelector('.pause'),
       stop = document.querySelector('.stop'),
@@ -152,7 +152,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     data = JSON.parse(event.data);
     switch (data.type) {
       case 'state':
-        roundnr.textContent = data.roundnr
+        round_nr.textContent = data.round_nr
         break;
       case 'users':
         users.textContent = (data.count.toString() + " user" + (data.count == 1 ? "" : "s"));

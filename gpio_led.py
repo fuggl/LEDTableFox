@@ -18,18 +18,6 @@ SEAT_LED_START = []  # LED starting indexes per seat
 SEAT_LED_COUNT = []  # LED counts per seat
 
 strip = PixelStrip(0, 0)
-COLORS = (Color(255, 0, 0, 0), Color(0, 255, 0, 0), Color(0, 0, 255, 0), Color(0, 0, 0, 255), Color(255, 255, 255, 255))
-
-
-def regular_led_count_per_seat():
-    seat_idx = 0
-    offset = 0
-    led_per_seat = LED_COUNT / SEAT_COUNT
-    while seat_idx < SEAT_COUNT:
-        SEAT_LED_START.append(offset)
-        SEAT_LED_COUNT.append(led_per_seat)
-        seat_idx += 1
-        offset += led_per_seat
 
 
 def setup_led_strips():
@@ -53,6 +41,17 @@ def set_color(first=0, led_count=strip.numPixels(), color=Color(0, 0, 0, 0), sho
 def set_seat_color(seat_nr, color, show=True):
     seat_idx = seat_nr - 1
     set_color(SEAT_LED_START[seat_idx], SEAT_LED_COUNT[seat_idx], color, show)
+
+
+def regular_led_count_per_seat():
+    seat_idx = 0
+    offset = 0
+    led_per_seat = LED_COUNT / SEAT_COUNT
+    while seat_idx < SEAT_COUNT:
+        SEAT_LED_START.append(offset)
+        SEAT_LED_COUNT.append(led_per_seat)
+        seat_idx += 1
+        offset += led_per_seat
 
 
 def init():

@@ -13,7 +13,7 @@ RUNNING = False
 
 
 def lights_off():
-    led.set_color(color=COLOR_DEFAULT)
+    led.set_color(color=COLOR_OFF)
 
 
 def lights_on():
@@ -42,7 +42,7 @@ def button_pressed(seat_idx, button_idx):
         if seat_idx == START_SEAT:
             next_round()
         ACTIVE_SEAT = seat_idx - 1
-        if ACTIVE_SEAT < 0:
+        if ACTIVE_SEAT < 1:
             ACTIVE_SEAT = 6
         led.set_seat_color(seat_idx, COLOR_DEFAULT)
         led.set_seat_color(ACTIVE_SEAT, COLOR_ACTIVE)

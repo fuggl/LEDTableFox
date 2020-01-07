@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 
 # Button channels
-BUTTON_1_CHANNEL = [4, 27, 23, 5, 16, 20]  # left buttons
-BUTTON_2_CHANNEL = [17, 22, 24, 6, 26, 21]  # right buttons
+BUTTON_1_CHANNEL = [4, 27, 23, 20, 16, 5]  # left buttons
+BUTTON_2_CHANNEL = [17, 22, 24, 21, 26, 6]  # right buttons
 BUTTON_IDX_LEFT = 1
 BUTTON_IDX_RIGHT = 2
 

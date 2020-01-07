@@ -117,7 +117,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       seat5 = document.querySelector('#seat5'),
       seat6 = document.querySelector('#seat6'),
       users = document.querySelector('.users'),
-      websocket = new WebSocket("ws://127.0.0.1:6789/");
+      websocket = new WebSocket("ws://192.168.0.3/:6789/");
   play.onclick = function (event) {
     websocket.send(JSON.stringify({action: 'play', value1: 'pl', value2: ''}));
   }

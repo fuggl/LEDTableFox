@@ -46,7 +46,7 @@ def set_seat_color(seat_nr, color, show=True):
 def regular_led_count_per_seat():
     seat_idx = 0
     offset = 0
-    led_per_seat = LED_COUNT / SEAT_COUNT
+    led_per_seat = int(LED_COUNT / SEAT_COUNT)
     while seat_idx < SEAT_COUNT:
         SEAT_LED_START.append(offset)
         SEAT_LED_COUNT.append(led_per_seat)

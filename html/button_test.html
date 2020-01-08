@@ -30,7 +30,7 @@
         seat4L = document.getElementById('seat4L'),
         seat5L = document.getElementById('seat5L'),
         seat6L = document.getElementById('seat6L'),
-        websocket = new WebSocket("ws://127.0.0.1/:6789/");
+        websocket = new WebSocket("ws://127.0.0.1:6789/");
     seat1L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat1L.value, value2: 1})); }
     seat2L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat2L.value, value2: 1})); }
     seat3L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat3L.value, value2: 1})); }

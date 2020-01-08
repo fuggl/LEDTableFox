@@ -1,5 +1,5 @@
-import gpio_button as button
-import gpio_led as led
+import gpio_button_test as button
+import gpio_led_test as led
 import websocket as web
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
@@ -175,6 +175,7 @@ def game_round_cto(value1, value2):
 
 # ==== web calls ---- testing
 def button_press(value1, value2):
+    print("pressing button {}, {}".format(value1, value2))
     button_pressed(int(value1), value2)
 
 
@@ -183,7 +184,8 @@ CALLS = {
     "pause": pause,
     "stop": stop,
     "shutdown": shutdown,
-    "seat": seat
+    "seat": seat,
+    "button_press": button_press
 }
 
 

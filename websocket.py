@@ -57,7 +57,8 @@ async def unregister(websocket):
     await notify_users()
 
 
-async def hello(websocket: websockets.WebSocketServerProtocol):
+async def hello(websocket: websockets.WebSocketServerProtocol, path):
+    print("hello to: {}".format(path))
     # register(websocket) sends user_event() to websocket
     await register(websocket)
     try:
@@ -71,6 +72,6 @@ async def hello(websocket: websockets.WebSocketServerProtocol):
 
 
 def init():
-    start_server = websockets.serve(hello, "192.168.0.3", 6789)
+    start_server = websockets.serve(hello, "localhost", 6789)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()

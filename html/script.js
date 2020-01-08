@@ -18,7 +18,7 @@ var game_round = document.getElementById('game_round'),
     seat5 = document.getElementById('seat5'),
     seat6 = document.getElementById('seat6'),
     users = document.getElementById('users'),
-    websocket = new WebSocket("ws://192.168.0.3/:6789/");
+    websocket = new WebSocket("ws://127.0.0.1:6789/");
 // websocket send
 // -- create function that returns a function that sends a message?
 var play_fct = function (event) { websocket.send(JSON.stringify({action: 'play', value1: 'pl', value2: ''})); }

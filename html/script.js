@@ -20,6 +20,7 @@ var game_round = document.getElementById('game_round'),
     users = document.getElementById('users'),
     websocket = new WebSocket("ws://192.168.0.3/:6789/");
 // websocket send
+// -- create function that returns a function that sends a message?
 var play_fct = function (event) { websocket.send(JSON.stringify({action: 'play', value1: 'pl', value2: ''})); }
 play[0].onclick = play_fct
 play[1].onclick = play_fct
@@ -39,18 +40,18 @@ seat5.onclick = function (event) { websocket.send(JSON.stringify({action: 'seat'
 seat6.onclick = function (event) { websocket.send(JSON.stringify({action: 'seat', value1: seat6.value, value2: seat6.checked})); }
 // websocket receive
 websocket.onmessage = function (event) {
-data = JSON.parse(event.data);
-switch (data.type) {
-  case 'state':
-    game_round.textContent = data.game_round
-    action_round.textContent = data.action_round
-    start_seat.textContent = data.start_seat
-    active_seat.textContent = data.active_seat
-    break;
-  case 'users':
-    users.textContent = (data.count.toString() + " user" + (data.count == 1 ? "" : "s"));
-    break;
-  default:
-    console.error("unsupported event", data);
-}
+    data = JSON.parse(event.data);
+    switch (data.type) {
+        case 'state':
+            game_round.textContent = data.game_round
+            action_round.textContent = data.action_round
+            start_seat.textContent = data.start_seat
+            active_seat.textContent = data.active_seat
+            break;
+        case 'users':
+            users.textContent = (data.count.toString() + " user" + (data.count == 1 ? "" : "s"));
+            break;
+        default:
+            console.error("unsupported event", data);
+    }
 };

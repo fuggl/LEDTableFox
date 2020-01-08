@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button Test</title>
+</head>
+<body>
+<form>Left<br>
+    <input class="seat w3-button w3-border" type="button" name="seats" value=1 id="seat1L">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=2 id="seat2L">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=3 id="seat3L">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=4 id="seat4L">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=5 id="seat5L">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=6 id="seat6L">
+</form>
+
+<form>Right<br>
+    <input class="seat w3-button w3-border" type="button" name="seats" value=1 id="seat1R">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=2 id="seat2R">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=3 id="seat3R">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=4 id="seat4R">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=5 id="seat5R">
+    <input class="seat w3-button w3-border" type="button" name="seats" value=6 id="seat6R">
+</form>
+
+<script>
+    var seat1L = document.getElementById('seat1L'),
+        seat2L = document.getElementById('seat2L'),
+        seat3L = document.getElementById('seat3L'),
+        seat4L = document.getElementById('seat4L'),
+        seat5L = document.getElementById('seat5L'),
+        seat6L = document.getElementById('seat6L'),
+        websocket = new WebSocket("ws://127.0.0.1/:6789/");
+    seat1L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat1L.value, value2: 1})); }
+    seat2L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat2L.value, value2: 1})); }
+    seat3L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat3L.value, value2: 1})); }
+    seat4L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat4L.value, value2: 1})); }
+    seat5L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat5L.value, value2: 1})); }
+    seat6L.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat6L.value, value2: 1})); }
+    var seat1R = document.getElementById('seat1R'),
+        seat2R = document.getElementById('seat2R'),
+        seat3R = document.getElementById('seat3R'),
+        seat4R = document.getElementById('seat4R'),
+        seat5R = document.getElementById('seat5R'),
+        seat6R = document.getElementById('seat6R');
+    seat1R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat1R.value, value2: 2})); }
+    seat2R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat2R.value, value2: 2})); }
+    seat3R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat3R.value, value2: 2})); }
+    seat4R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat4R.value, value2: 2})); }
+    seat5R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat5R.value, value2: 2})); }
+    seat6R.onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seat6R.value, value2: 2})); }
+</script>
+</body>
+</html>

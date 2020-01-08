@@ -173,6 +173,11 @@ def game_round_cto(value1, value2):
     update_settings_state()
 
 
+# ==== web calls ---- testing
+def button_press(value1, value2):
+    button_pressed(int(value1), value2)
+
+
 CALLS = {
     "play": play,
     "pause": pause,

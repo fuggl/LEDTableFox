@@ -6,7 +6,7 @@ COLOR_OFF = led.Color(0, 0, 0, 0)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
-ROUND = 0
+game_round = 0
 START_SEAT = 0
 ACTIVE_SEAT = 0
 RUNNING = False
@@ -23,9 +23,9 @@ def lights_on():
 
 
 def next_round():
-    global ROUND
-    ROUND += 1
-    web.set_state("round_nr", ROUND)
+    global game_round
+    game_round += 1
+    web.set_state("round_nr", game_round)
 
 
 def button_pressed(seat_idx, button_idx):

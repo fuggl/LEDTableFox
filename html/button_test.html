@@ -6,39 +6,37 @@
 </head>
 <body>
 <form>Left<br>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=1>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=2>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=3>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=4>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=5>
-    <input class="seatL w3-button w3-border" type="button" name="seats" value=6>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=1>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=2>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=3>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=4>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=5>
+    <input class="seatL w3-button w3-border" type="button" name="button_press" value=6>
 </form>
 
 <form>Right<br>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=1>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=2>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=3>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=4>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=5>
-    <input class="seatR w3-button w3-border" type="button" name="seats" value=6>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=1>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=2>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=3>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=4>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=5>
+    <input class="seatR w3-button w3-border" type="button" name="button_press" value=6>
 </form>
 
 <script>
     var seatsL = document.getElementsByClassName('seatL'),
         seatsR = document.getElementsByClassName('seatR'),
         websocket = new WebSocket("ws://127.0.0.1:6789/");
-    seatsL[0].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[0].value, value2: 1})); }
-    seatsL[1].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[1].value, value2: 1})); }
-    seatsL[2].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[2].value, value2: 1})); }
-    seatsL[3].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[3].value, value2: 1})); }
-    seatsL[4].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[4].value, value2: 1})); }
-    seatsL[5].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsL[5].value, value2: 1})); }
-    seatsR[0].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[0].value, value2: 2})); }
-    seatsR[1].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[1].value, value2: 2})); }
-    seatsR[2].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[2].value, value2: 2})); }
-    seatsR[3].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[3].value, value2: 2})); }
-    seatsR[4].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[4].value, value2: 2})); }
-    seatsR[5].onclick = function (event) { websocket.send(JSON.stringify({action: 'button_press', value1: seatsR[5].value, value2: 2})); }
+    function ws_send_values(obj, value) {
+        return function (event) { websocket.send(JSON.stringify({action: obj.name, value1: obj.value, value2: value})); }
+    }
+    function set_send_values_on_click(objects, value) {
+        for (o of objects) {
+            o.onclick = ws_send_values(o, value)
+        }
+    }
+    set_send_values_on_click(seatsL, 1);
+    set_send_values_on_click(seatsR, 2);
 </script>
 </body>
 </html>

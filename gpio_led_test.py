@@ -20,22 +20,12 @@ SEAT_LED_COUNT = []  # LED counts per seat
 strip = "PixelStrip(0, 0)"
 
 
-def setup_led_strips():
-    # Create PixelStrip object with appropriate configuration
-    global strip
-    # strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-    # Initialize the library (must be called once before other functions)
-    strip.begin()
-
-
 def set_color(first=0, led_count=LED_COUNT, color=Color(0, 0, 0, 0), show=True):
-    led = first
-    end = first + led_count
-    print("set {} LEDs, starting at {} to {}".format(led_count, first, color))
+    print("set {} LEDs, starting at {} to {} (show = {})".format(led_count, first, color, show))
 
 
 def set_seat_color(seat_nr, color, show=True):
-    print("set LEDs of seat {} to {}".format(seat_nr, color))
+    print("set LEDs of seat {} to {} (show = {})".format(seat_nr, color, show))
 
 
 def regular_led_count_per_seat():

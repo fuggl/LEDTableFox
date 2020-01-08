@@ -56,9 +56,10 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <div class="w3-content w3-justify w3-text-grey w3-padding-0">
     <h1 class="w3-text-light-grey">Round Counter</h1>
     <div class="state">
-      Game Round: <span id="game_round">?</span>
+      Game Round: <span id="game_round">?</span><br>
       Action Round: <span id="action_round">?</span>
     </div>
+    <hr style="width:400px" class="w3-opacity">
   <!-- End Game Stats Section -->
   </div>
 
@@ -68,31 +69,48 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <hr style="width:200px" class="w3-opacity">
     <h2 class="w3-text-light-grey">Active Seats</h2>
     <form>
-      <input type="checkbox" name="seats" value=1 checked id="seat1"> 1
-      <input type="checkbox" name="seats" value=2 checked id="seat2"> 2
-      <input type="checkbox" name="seats" value=3 checked id="seat3"> 3
-      <input type="checkbox" name="seats" value=4 checked id="seat4"> 4
-      <input type="checkbox" name="seats" value=5 checked id="seat5"> 5
-      <input type="checkbox" name="seats" value=6 checked id="seat6"> 6
+      <input class="seat w3-button w3-border" type="button" name="seats" value=1 id="seat1">
+      <input class="seat w3-button w3-border" type="button" name="seats" value=2 id="seat2">
+      <input class="seat w3-button w3-border" type="button" name="seats" value=3 id="seat3">
+      <input class="seat w3-button w3-border" type="button" name="seats" value=4 id="seat4">
+      <input class="seat w3-button w3-border" type="button" name="seats" value=5 id="seat5">
+      <input class="seat w3-button w3-border" type="button" name="seats" value=6 id="seat6">
     </form>
     <hr style="width:200px" class="w3-opacity">
-    <h2 class="w3-text-light-grey">Order</h2>
+    <h2 class="w3-text-light-grey">Starting Player</h2>
+    <h3 class="w3-text-light-grey">First Round</h3>
     <form>
-      <input type="radio" name="order" value="cw" checked> Clockwise
-      <input type="radio" name="order" value="acw"> Anti-Clockwise
-      <input type="radio" name="order" value="spec"> Specific
+      <input class="sp_fr w3-button w3-border" type="button" name="sp_fr" value="first input">
+      <input class="sp_fr w3-button w3-border" type="button" name="sp_fr" value="random">
+    </form>
+    <h3 class="w3-text-light-grey">Consecutive Rounds</h3>
+    <form>
+      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="same">
+      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="rotating">
+      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="first input">
+      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="random">
     </form>
     <hr style="width:200px" class="w3-opacity">
-    <h2 class="w3-text-light-grey">Pass</h2>
+    <h2 class="w3-text-light-grey">Game Round</h2>
+    <h3 class="w3-text-light-grey">First Turn Order</h3>
     <form>
-      <input type="radio" name="pass" value="n" checked> None
-      <input type="radio" name="pass" value="y"> End Round
-      <input type="radio" name="pass" value="reorder"> End Round and Reorder
+      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="clockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="counterclockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="specific">
     </form>
-    <hr style="width:200px" class="w3-opacity">
-    <h2 class="w3-text-light-grey">Round Limit</h2>
+    <h3 class="w3-text-light-grey">End Condition</h3>
     <form>
-      <input class="w3-input w3-padding-6" type="number" name="rounds" min="0" max="20" value=0>
+      <input class="gr_ec w3-button w3-border" type="button" name="gr_ec" value="after n action rounds">
+      <input class="gr_ec w3-button w3-border" type="button" name="gr_ec" value="every player passes"><br>
+      <input class="gr_ec w3-input w3-padding-6" type="number" name="rounds" min="1" value=1>
+    </form>
+    <h3 class="w3-text-light-grey">Consecutive Turn Orders</h3>
+    <form>
+      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="same">
+      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="reversed">
+      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="specific">
+      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="pass order, fifo">
+      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="pass order, lifo">
     </form>
     <hr style="width:200px" class="w3-opacity">
     <div class="state">

@@ -1,3 +1,5 @@
+import sys
+
 import gpio_button_test as button
 import gpio_led_test as led
 import websocket as web
@@ -7,15 +9,17 @@ COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
 
-STATUS_STOPPED = 0
+STATUS_RUNNING = 0
 STATUS_PAUSED = 1
-STATUS_RUNNING = 2
+STATUS_STOPPED = 2
 
 status = STATUS_STOPPED
 game_round = 0
 action_round = 0
 start_seat = 0
 active_seat = 0
+
+active_seats = [True, True, True, True, True, True]
 
 STARTING_PLAYER_FR_FIRST_INPUT = 0
 STARTING_PLAYER_FR_RANDOM = 1
@@ -52,6 +56,7 @@ def update_game_state():
 
 
 def update_settings_state():
+    web.set_state("active_seats", active_seats)
     web.set_state("starting_player_first_round", starting_player_first_round)
     web.set_state("starting_player_consecutive_rounds", starting_player_consecutive_rounds)
     web.set_state("game_round_first_turn_order", game_round_first_turn_order)
@@ -136,11 +141,15 @@ def stop(value1, value2):
 # turn off lights and shutdown raspberry pi
 def shutdown(value1, value2):
     print("shutdown {} {}".format(value1, value2))
+    sys.exit(0)
 
 
 # ==== web calls ---- settings state
-def seat(number, checked):
-    button_pressed(int(number), checked)
+def seat(number, value2):
+    global active_seats
+    index = int(number) - 1
+    active_seats[index] = not active_seats[index]
+    update_settings_state()
 
 
 def starting_player_fr(value1, value2):
@@ -185,6 +194,11 @@ CALLS = {
     "stop": stop,
     "shutdown": shutdown,
     "seat": seat,
+    "starting_player_fr": starting_player_fr,
+    "starting_player_cr": starting_player_cr,
+    "game_round_fto": game_round_fto,
+    "game_round_ec": game_round_ec,
+    "game_round_cto": game_round_cto,
     "button_press": button_press
 }
 
@@ -199,4 +213,5 @@ if __name__ == '__main__':
     button.register(button_pressed)
     web.set_consumer(consume)
     update_game_state()
+    update_settings_state()
     web.init()

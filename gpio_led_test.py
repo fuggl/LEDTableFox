@@ -35,8 +35,7 @@ def set_color(first=0, led_count=LED_COUNT, color=Color(0, 0, 0, 0), show=True):
 
 
 def set_seat_color(seat_nr, color, show=True):
-    seat_idx = seat_nr - 1
-    set_color(SEAT_LED_START[seat_idx], SEAT_LED_COUNT[seat_idx], color, show)
+    print("set LEDs of seat {} to {}".format(seat_nr, color))
 
 
 def regular_led_count_per_seat():

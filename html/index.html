@@ -21,19 +21,19 @@
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
 <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
   <!-- Avatar image in top left corner -->
-  <div class="play w3-bar-item w3-button w3-padding-large w3-hover-black" id="play1">
+  <div class="status1 play w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-play w3-xxlarge"></i>
     <p>PLAY</p>
   </div>
-  <div class="pause w3-bar-item w3-button w3-padding-large w3-hover-black" id="pause1">
+  <div class="status1 pause w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-pause w3-xxlarge"></i>
     <p>PAUSE</p>
   </div>
-  <div class="stop w3-bar-item w3-button w3-padding-large w3-hover-black" id="stop1">
+  <div class="status1 stop w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-stop w3-xxlarge"></i>
     <p>STOP</p>
   </div>
-  <div class="shutdown w3-bar-item w3-button w3-padding-large w3-hover-black" id="shutdown1">
+  <div class="shutdown w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-power-off w3-xxlarge"></i>
     <p>SHUTDOWN</p>
   </div>
@@ -42,9 +42,9 @@
 <!-- Navbar on small screens (Hidden on medium and large screens) -->
 <div class="w3-top w3-hide-large w3-hide-medium" id="navbar">
   <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
-    <div class="play w3-bar-item w3-button" style="width:25% !important" id="play2"><i class="fa fa-play w3-xxlarge"></i></div>
-    <div class="pause w3-bar-item w3-button" style="width:25% !important" id="pause2"><i class="fa fa-pause w3-xxlarge"></i></div>
-    <div class="stop w3-bar-item w3-button" style="width:25% !important" id="stop2"><i class="fa fa-stop w3-xxlarge"></i></div>
+    <div class="status2 play w3-bar-item w3-button" style="width:25% !important" id="play2"><i class="fa fa-play w3-xxlarge"></i></div>
+    <div class="status2 pause w3-bar-item w3-button" style="width:25% !important" id="pause2"><i class="fa fa-pause w3-xxlarge"></i></div>
+    <div class="status2 stop w3-bar-item w3-button" style="width:25% !important" id="stop2"><i class="fa fa-stop w3-xxlarge"></i></div>
     <div class="shutdown w3-bar-item w3-button" style="width:25% !important" id="shutdown2"><i class="fa fa-power-off w3-xxlarge"></i></div>
   </div>
 </div>
@@ -71,48 +71,48 @@
     <hr style="width:200px" class="w3-opacity">
     <h2 class="w3-text-light-grey">Active Seats</h2>
     <form>
-      <input class="seat w3-button w3-border" type="button" name="seats" value=1 id="seat1">
-      <input class="seat w3-button w3-border" type="button" name="seats" value=2 id="seat2">
-      <input class="seat w3-button w3-border" type="button" name="seats" value=3 id="seat3">
-      <input class="seat w3-button w3-border" type="button" name="seats" value=4 id="seat4">
-      <input class="seat w3-button w3-border" type="button" name="seats" value=5 id="seat5">
-      <input class="seat w3-button w3-border" type="button" name="seats" value=6 id="seat6">
+      <input class="seat w3-button w3-border" type="button" name="seat" value=1>
+      <input class="seat w3-button w3-border" type="button" name="seat" value=2>
+      <input class="seat w3-button w3-border" type="button" name="seat" value=3>
+      <input class="seat w3-button w3-border" type="button" name="seat" value=4>
+      <input class="seat w3-button w3-border" type="button" name="seat" value=5>
+      <input class="seat w3-button w3-border" type="button" name="seat" value=6>
     </form>
     <hr style="width:200px" class="w3-opacity">
     <h2 class="w3-text-light-grey">Starting Player</h2>
     <h3 class="w3-text-light-grey">First Round</h3>
     <form>
-      <input class="sp_fr w3-button w3-border" type="button" name="sp_fr" value="first input">
-      <input class="sp_fr w3-button w3-border" type="button" name="sp_fr" value="random">
+      <input class="sp_fr w3-button w3-border" type="button" name="starting_player_fr" value="first input">
+      <input class="sp_fr w3-button w3-border" type="button" name="starting_player_fr" value="random">
     </form>
     <h3 class="w3-text-light-grey">Consecutive Rounds</h3>
     <form>
-      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="same">
-      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="rotating">
-      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="first input">
-      <input class="sp_cr w3-button w3-border" type="button" name="sp_cr" value="random">
+      <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="same">
+      <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="rotating">
+      <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="first input">
+      <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="random">
     </form>
     <hr style="width:200px" class="w3-opacity">
     <h2 class="w3-text-light-grey">Game Round</h2>
     <h3 class="w3-text-light-grey">First Turn Order</h3>
     <form>
-      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="clockwise">
-      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="counterclockwise">
-      <input class="gr_fto w3-button w3-border" type="button" name="gr_fto" value="specific">
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="clockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="counterclockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="specific">
     </form>
     <h3 class="w3-text-light-grey">End Condition</h3>
     <form>
-      <input class="gr_ec w3-button w3-border" type="button" name="gr_ec" value="after n action rounds">
-      <input class="gr_ec w3-button w3-border" type="button" name="gr_ec" value="every player passes"><br>
-      <input class="gr_ec w3-input w3-padding-6" type="number" name="rounds" min="1" value=1>
+      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="every player passes">
+      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="after n action rounds"><br>
+      <input class="w3-input w3-padding-6" type="number" name="game_round_ec" min="0" value=1 id="gr_ec_nr">
     </form>
     <h3 class="w3-text-light-grey">Consecutive Turn Orders</h3>
     <form>
-      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="same">
-      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="reversed">
-      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="specific">
-      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="pass order, fifo">
-      <input class="gr_cto w3-button w3-border" type="button" name="gr_cto" value="pass order, lifo">
+      <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="same">
+      <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="reversed">
+      <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="specific">
+      <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="pass order, fifo">
+      <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="pass order, lifo">
     </form>
     <hr style="width:200px" class="w3-opacity">
     <div class="state">

@@ -1,20 +1,23 @@
-var round_nr = document.querySelector('#round'),
+var game_round = document.getElementById('game_round'),
+    action_round = document.getElementById('action_round'),
+    start_seat = document.getElementById('start_seat'),
+    active_seat = document.getElementById('active_seat'),
     play = document.getElementsByClassName('play'),
-    play1 = document.querySelector('#play1'),
-    play2 = document.querySelector('#play2'),
-    pause1 = document.querySelector('#pause1'),
-    pause2 = document.querySelector('#pause2'),
-    stop1 = document.querySelector('#stop1'),
-    stop2 = document.querySelector('#stop2'),
-    shutdown1 = document.querySelector('#shutdown1'),
-    shutdown2 = document.querySelector('#shutdown2'),
-    seat1 = document.querySelector('#seat1'),
-    seat2 = document.querySelector('#seat2'),
-    seat3 = document.querySelector('#seat3'),
-    seat4 = document.querySelector('#seat4'),
-    seat5 = document.querySelector('#seat5'),
-    seat6 = document.querySelector('#seat6'),
-    users = document.querySelector('.users'),
+    play1 = document.getElementById('play1'),
+    play2 = document.getElementById('play2'),
+    pause1 = document.getElementById('pause1'),
+    pause2 = document.getElementById('pause2'),
+    stop1 = document.getElementById('stop1'),
+    stop2 = document.getElementById('stop2'),
+    shutdown1 = document.getElementById('shutdown1'),
+    shutdown2 = document.getElementById('shutdown2'),
+    seat1 = document.getElementById('seat1'),
+    seat2 = document.getElementById('seat2'),
+    seat3 = document.getElementById('seat3'),
+    seat4 = document.getElementById('seat4'),
+    seat5 = document.getElementById('seat5'),
+    seat6 = document.getElementById('seat6'),
+    users = document.getElementById('users'),
     websocket = new WebSocket("ws://192.168.0.3/:6789/");
 // websocket send
 var play_fct = function (event) { websocket.send(JSON.stringify({action: 'play', value1: 'pl', value2: ''})); }
@@ -39,7 +42,10 @@ websocket.onmessage = function (event) {
 data = JSON.parse(event.data);
 switch (data.type) {
   case 'state':
-    round_nr.textContent = data.round_nr
+    game_round.textContent = data.game_round
+    action_round.textContent = data.action_round
+    start_seat.textContent = data.start_seat
+    active_seat.textContent = data.active_seat
     break;
   case 'users':
     users.textContent = (data.count.toString() + " user" + (data.count == 1 ? "" : "s"));

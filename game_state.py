@@ -15,6 +15,10 @@ def is_running():
     return status == STATUS_RUNNING
 
 
+def has_active_seat():
+    return active_seat > 0
+
+
 def waiting_for_start():
     return game_round == 0 and action_round == 0
 

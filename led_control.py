@@ -26,8 +26,8 @@ def lights_off():
 
 def lights_on():
     led.set_color(color=COLOR_DEFAULT)
-    if active_seat > 0:
-        led.set_seat_color(active_seat, COLOR_ACTIVE)
+    if game.has_active_seat():
+        led.set_seat_color(game.active_seat, COLOR_ACTIVE)
 
 
 def first_input():
@@ -61,7 +61,7 @@ def button_pressed(seat_idx, button_idx):
 # ==== web calls ---- game state
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
-    if not game.waiting_for_start():
+    if game.waiting_for_start():
         game.start()
         if settings.starting_player_first_round_is_random():
             game.randomize_start_seat()

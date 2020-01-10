@@ -43,6 +43,10 @@ def is_stopped():
     return status == STATUS_STOPPED
 
 
+def order_is_almost_complete():
+    return len(seat_order) == player_count() - 1
+
+
 def order_is_complete():
     return len(seat_order) == player_count()
 
@@ -250,12 +254,16 @@ def end_of_player_turn():
             no_round_switch = False
         if no_round_switch:
             active_seat = get_next_seat()
+    elif order_is_almost_complete():
+        for seat in seats:
+            if seat not in seat_order:
+                add_seat_to_order(seat)
+                active_seat = seat
     else:
         active_seat = 0
 
 
 def next_player(seat):
-    print("next: {}".format(seat))
     global start_seat, active_seat
     # there is no starting player -> start of action round
     if start_seat == 0:
@@ -273,14 +281,12 @@ def next_player(seat):
 
 
 def pass_player(seat):
-    print("pass: {}".format(str(seat_order_pass)))
     global seats, pass_order, last_seat_to_pass_index
     if seats[seat] != SEAT_PASSED:
         seats[seat] = SEAT_PASSED
         last_seat_to_pass_index = seat_order_pass.index(seat)
         pass_order.append(seat)
         seat_order_pass.remove(seat)
-    print("pass: {}".format(str(seat_order_pass)))
 
 
 def undo_pass(seat):

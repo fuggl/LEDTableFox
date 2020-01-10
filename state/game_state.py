@@ -1,3 +1,5 @@
+import random
+
 STATUS_RUNNING = 0
 STATUS_PAUSED = 1
 STATUS_STOPPED = 2
@@ -41,7 +43,7 @@ def waiting_for_start():
 
 
 def start(active_seats, random_starting_player):
-    global game_round, action_round, seats
+    global game_round, action_round, seats, active_seat
     game_round = 1
     action_round = 1
     index = 0
@@ -49,13 +51,15 @@ def start(active_seats, random_starting_player):
         if active:
             seats.append(index + 1)
         index += 1
+    print(player_count())
     if random_starting_player:
         randomize_start_seat()
+        active_seat = start_seat
 
 
 def randomize_start_seat():
-    global active_seat
-    active_seat = 1  # TODO: randomize
+    global start_seat
+    start_seat = seats[random.randint(0, len(seats)-1)]
 
 
 def set_status(new_status):
@@ -81,11 +85,12 @@ def undo_pass(seat):
 
 
 def reset():
-    global game_round, action_round, start_seat, active_seat
+    global game_round, action_round, start_seat, active_seat, seats
     game_round = 0
     action_round = 0
     start_seat = 0
     active_seat = 0
+    seats.clear()
 
 
 def update(setter):

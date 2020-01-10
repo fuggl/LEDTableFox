@@ -8,6 +8,7 @@ action_round = 0
 start_seat = 0
 active_seat = 0
 
+seats = []
 seat_order = []
 
 
@@ -31,14 +32,25 @@ def seat_is_active(seat):
     return seat == active_seat
 
 
+def player_count():
+    return len(seats)
+
+
 def waiting_for_start():
     return game_round == 0 and action_round == 0
 
 
-def start():
-    global game_round, action_round
+def start(active_seats, random_starting_player):
+    global game_round, action_round, seats
     game_round = 1
     action_round = 1
+    index = 0
+    for active in active_seats:
+        if active:
+            seats.append(index + 1)
+        index += 1
+    if random_starting_player:
+        randomize_start_seat()
 
 
 def randomize_start_seat():

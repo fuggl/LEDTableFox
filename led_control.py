@@ -73,9 +73,7 @@ def button_pressed(seat_number, button_idx):
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
     if game.waiting_for_start():
-        game.start()
-        if settings.starting_player_first_round_is_random():
-            game.randomize_start_seat()
+        game.start(settings.active_seats, settings.starting_player_first_round_is_random())
     lights_on()
     game.set_status(game.STATUS_RUNNING)
     update_game_state()

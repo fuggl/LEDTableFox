@@ -28,8 +28,14 @@ def show_active_seat():
 
 
 def lights_on():
-    led.set_color(color=COLOR_DEFAULT)
-    show_active_seat()
+    for player_seat in game.seats:
+        if game.seat_has_passed(player_seat):
+            led.set_seat_color(player_seat, COLOR_PASSED, show=False)
+        elif game.seat_is_active(player_seat):
+            led.set_seat_color(player_seat, COLOR_ACTIVE, show=False)
+        else:
+            led.set_seat_color(player_seat, COLOR_DEFAULT, show=False)
+    led.show_changes()
 
 
 def lights_off():
@@ -49,6 +55,7 @@ def player_pass(invoker_seat):
     # pass pressed by active player -> pass and next
     if game.seat_is_active(invoker_seat):
         game.pass_player(invoker_seat)
+        game.next_player(invoker_seat)
         led.set_seat_color(invoker_seat, COLOR_PASSED)
         show_active_seat()
     # pass pressed by inactive player -> undo pass or ignore

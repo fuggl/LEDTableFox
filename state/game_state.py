@@ -10,7 +10,10 @@ action_round = 0
 start_seat = 0
 active_seat = 0
 
-seats = []
+SEAT_WAITING = 0
+SEAT_PASSED = 1
+seats = {}
+seats_passed = []
 seat_order = []
 
 
@@ -34,12 +37,21 @@ def seat_is_active(seat):
     return seat == active_seat
 
 
+def seat_has_passed(seat):
+    return seats[seat] == SEAT_PASSED
+
+
 def player_count():
     return len(seats)
 
 
 def waiting_for_start():
     return game_round == 0 and action_round == 0
+
+
+def randomize_start_seat():
+    global start_seat
+    start_seat = seats[random.randint(0, len(seats)-1)]
 
 
 def start(active_seats, random_starting_player):
@@ -49,17 +61,11 @@ def start(active_seats, random_starting_player):
     index = 0
     for active in active_seats:
         if active:
-            seats.append(index + 1)
+            seats[index + 1] = SEAT_WAITING
         index += 1
-    print(player_count())
     if random_starting_player:
         randomize_start_seat()
         active_seat = start_seat
-
-
-def randomize_start_seat():
-    global start_seat
-    start_seat = seats[random.randint(0, len(seats)-1)]
 
 
 def set_status(new_status):
@@ -77,20 +83,23 @@ def next_player(seat):
 
 
 def pass_player(seat):
-    return  # TODO: pass
+    global seats_passed
+    seats_passed[seat] = SEAT_PASSED
 
 
 def undo_pass(seat):
-    return  # TODO: undo pass
+    global seats_passed
+    seats_passed[seat] = SEAT_WAITING
 
 
 def reset():
-    global game_round, action_round, start_seat, active_seat, seats
+    global game_round, action_round, start_seat, active_seat, seats, seat_order
     game_round = 0
     action_round = 0
     start_seat = 0
     active_seat = 0
     seats.clear()
+    seat_order.clear()
 
 
 def update(setter):

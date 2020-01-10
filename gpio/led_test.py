@@ -28,6 +28,10 @@ def set_seat_color(seat_nr, color, show=True):
     print("set LEDs of seat {} to {} (show = {})".format(seat_nr, color, show))
 
 
+def show_changes():
+    return
+
+
 def regular_led_count_per_seat():
     seat_idx = 0
     offset = 0

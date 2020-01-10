@@ -8,6 +8,8 @@ action_round = 0
 start_seat = 0
 active_seat = 0
 
+seat_order = []
+
 
 def is_running():
     return status == STATUS_RUNNING
@@ -15,6 +17,16 @@ def is_running():
 
 def waiting_for_start():
     return game_round == 0 and action_round == 0
+
+
+def start():
+    global game_round, action_round
+    game_round = 1
+    action_round = 1
+
+
+def randomize_start_seat():
+    return  # TODO: randomize
 
 
 def set_status(new_status):

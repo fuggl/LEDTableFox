@@ -61,8 +61,10 @@ def button_pressed(seat_idx, button_idx):
 # ==== web calls ---- game state
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
-    if not game.is_running() and settings.starting_player_first_round_is_random():
-        game.next_round()  # randomize start_seat
+    if not game.waiting_for_start():
+        game.start()
+        if settings.starting_player_first_round_is_random():
+            game.randomize_start_seat()
     lights_on()
     game.set_status(game.STATUS_RUNNING)
     update_game_state()

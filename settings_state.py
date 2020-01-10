@@ -68,6 +68,10 @@ def game_round_first_turn_order_is_specific():
     return game_round_first_turn_order == GAME_ROUND_FTO_SPECIFIC
 
 
+def game_round_end_condition_is_pass():
+    return game_round_end_condition == GAME_ROUND_EC_PASS
+
+
 def game_round_consecutive_turn_order_is_same():
     return game_round_consecutive_turn_order == GAME_ROUND_CTO_SAME
 

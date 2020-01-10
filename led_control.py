@@ -12,6 +12,10 @@ COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
 
 
+def ignore(value):
+    return value
+
+
 def update_game_state():
     game.update(web.set_state)
 
@@ -20,42 +24,45 @@ def update_settings_state():
     settings.update(web.set_state)
 
 
+def show_active_seat():
+    if game.has_active_seat():
+        led.set_seat_color(game.active_seat, COLOR_ACTIVE)
+
+
 def lights_off():
     led.set_color(color=COLOR_OFF)
 
 
 def lights_on():
     led.set_color(color=COLOR_DEFAULT)
-    if game.has_active_seat():
-        led.set_seat_color(game.active_seat, COLOR_ACTIVE)
+    show_active_seat()
 
 
 def first_input():
     return
 
 
+def player_next(invoker_seat):
+    update_game_state()
+
+
+def player_pass(invoker_seat):
+    if game.seat_is_active(invoker_seat):
+        game.pass_player(invoker_seat)
+        led.set_seat_color(invoker_seat, COLOR_PASSED)
+        show_active_seat()
+    else:
+        game.undo_pass(invoker_seat)
+        led.set_seat_color(invoker_seat, COLOR_DEFAULT)
+    update_game_state()
+
+
 def button_pressed(seat_idx, button_idx):
-    if not game.is_running():
-        return
-    if not game.waiting_for_start():
-        first_input()
-    #elif
-    global start_seat, active_seat
-    # check if this is the first round
-    if start_seat == 0:
-        start_seat = seat_idx
-        active_seat = seat_idx
-        led.set_seat_color(active_seat, COLOR_ACTIVE)
-    # only continue if seat is viable for input
-    elif seat_idx == active_seat:
-        if seat_idx == start_seat:
-            game.next_round()
-        active_seat = seat_idx - 1
-        if active_seat < 1:
-            active_seat = 6
-        led.set_seat_color(seat_idx, COLOR_DEFAULT)
-        led.set_seat_color(active_seat, COLOR_ACTIVE)
-        # print ("{} {}".format(seat,button))
+    if game.is_running():
+        if button_idx > 1 and settings.game_round_end_condition_is_pass():  # pass functionality
+            player_pass(seat_idx)
+        elif game.seat_is_active(seat_idx):  # next functionality
+            player_next(seat_idx)
 
 
 # ==== web calls ---- game state
@@ -94,31 +101,37 @@ def shutdown(value1, value2):
 
 # ==== web calls ---- settings state
 def seat(number, value2):
+    ignore(value2)
     settings.toggle_seat_active(int(number))
     update_settings_state()
 
 
 def starting_player_fr(value1, value2):
+    ignore(value2)
     settings.starting_player_first_round = value1
     update_settings_state()
 
 
 def starting_player_cr(value1, value2):
+    ignore(value2)
     settings.starting_player_consecutive_rounds = value1
     update_settings_state()
 
 
 def game_round_fto(value1, value2):
+    ignore(value2)
     settings.game_round_first_turn_order = value1
     update_settings_state()
 
 
 def game_round_ec(value1, value2):
+    ignore(value2)
     settings.game_round_end_condition = value1
     update_settings_state()
 
 
 def game_round_cto(value1, value2):
+    ignore(value2)
     settings.game_round_consecutive_turn_order = value1
     update_settings_state()
 

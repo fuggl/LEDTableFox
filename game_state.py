@@ -19,6 +19,10 @@ def has_active_seat():
     return active_seat > 0
 
 
+def seat_is_active(seat):
+    return seat == active_seat
+
+
 def waiting_for_start():
     return game_round == 0 and action_round == 0
 
@@ -30,7 +34,8 @@ def start():
 
 
 def randomize_start_seat():
-    return  # TODO: randomize
+    global active_seat
+    active_seat = 1  # TODO: randomize
 
 
 def set_status(new_status):
@@ -41,6 +46,14 @@ def set_status(new_status):
 def next_round():
     global game_round
     game_round += 1
+
+
+def pass_player(seat):
+    return  # TODO: pass
+
+
+def undo_pass(seat):
+    return  # TODO: undo pass
 
 
 def reset():

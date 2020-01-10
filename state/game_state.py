@@ -120,6 +120,8 @@ def reset_order():
     seat_order_pass.clear()
     pass_order.clear()
     last_seat_to_pass_index = 0
+    for seat in seats:
+        seats[seat] = SEAT_WAITING
 
 
 def choose_starting_seat():
@@ -157,7 +159,6 @@ def next_game_round():
 
 
 def create_order_clockwise():
-    global seat_order_pass
     seat_order.clear()
     i = start_seat - 1
     length = len(settings.used_seats)
@@ -171,7 +172,6 @@ def create_order_clockwise():
 
 
 def create_order_counterclockwise():
-    global seat_order_pass
     seat_order.clear()
     i = start_seat - 1
     length = len(settings.used_seats)

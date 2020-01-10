@@ -1,10 +1,8 @@
 import sys
 
-import gpio_button_test as button
-import gpio_led_test as led
-import websocket as web
-import game_state as game
-import settings_state as settings
+from gpio import led_test as led, button_test as button
+from connect import websocket as web
+from state import settings_state as settings, game_state as game
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)

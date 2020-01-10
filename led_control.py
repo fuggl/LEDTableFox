@@ -3,56 +3,21 @@ import sys
 import gpio_button_test as button
 import gpio_led_test as led
 import websocket as web
-import game_state
+import game_state as game
+import settings_state as settings
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
 
-active_seats = [True, True, True, True, True, True]
-
-STARTING_PLAYER_FR_FIRST_INPUT = 0
-STARTING_PLAYER_FR_RANDOM = 1
-starting_player_first_round = STARTING_PLAYER_FR_FIRST_INPUT
-
-STARTING_PLAYER_CR_SAME = 0
-STARTING_PLAYER_CR_ROTATING = 1
-STARTING_PLAYER_CR_FIRST_INPUT = 2
-STARTING_PLAYER_CR_RANDOM = 3
-starting_player_consecutive_rounds = STARTING_PLAYER_CR_SAME
-
-GAME_ROUND_FTO_CLOCKWISE = 0
-GAME_ROUND_FTO_COUNTERCLOCKWISE = 1
-GAME_ROUND_FTO_SPECIFIC = 2
-game_round_first_turn_order = GAME_ROUND_FTO_CLOCKWISE
-
-GAME_ROUND_EC_PASS = 0
-game_round_end_condition = 1  # >0: after n action rounds
-
-GAME_ROUND_CTO_SAME = 0
-GAME_ROUND_CTO_REVERSE = 1
-GAME_ROUND_CTO_SPECIFIC = 2
-GAME_ROUND_CTO_PASS_FIFO = 3
-GAME_ROUND_CTO_PASS_LIFO = 4
-game_round_consecutive_turn_order = GAME_ROUND_CTO_SAME
-
 
 def update_game_state():
-    web.set_state("status", game_state.status)
-    web.set_state("game_round", game_state.game_round)
-    web.set_state("action_round", game_state.action_round)
-    web.set_state("start_seat", game_state.start_seat)
-    web.set_state("active_seat", game_state.active_seat)
+    game.update(web.set_state)
 
 
 def update_settings_state():
-    web.set_state("active_seats", active_seats)
-    web.set_state("starting_player_first_round", starting_player_first_round)
-    web.set_state("starting_player_consecutive_rounds", starting_player_consecutive_rounds)
-    web.set_state("game_round_first_turn_order", game_round_first_turn_order)
-    web.set_state("game_round_end_condition", game_round_end_condition)
-    web.set_state("game_round_consecutive_turn_order", game_round_consecutive_turn_order)
+    settings.update(web.set_state)
 
 
 def lights_off():
@@ -70,9 +35,9 @@ def first_input():
 
 
 def button_pressed(seat_idx, button_idx):
-    if not game_state.is_running():
+    if not game.is_running():
         return
-    if not game_state.waiting_for_start():
+    if not game.waiting_for_start():
         first_input()
     #elif
     global start_seat, active_seat
@@ -84,7 +49,7 @@ def button_pressed(seat_idx, button_idx):
     # only continue if seat is viable for input
     elif seat_idx == active_seat:
         if seat_idx == start_seat:
-            game_state.next_round()
+            game.next_round()
         active_seat = seat_idx - 1
         if active_seat < 1:
             active_seat = 6
@@ -96,10 +61,10 @@ def button_pressed(seat_idx, button_idx):
 # ==== web calls ---- game state
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
-    if not game_state.is_running() and starting_player_first_round == STARTING_PLAYER_FR_RANDOM:
-        game_state.next_round()  # randomize start_seat
+    if not game.is_running() and settings.starting_player_first_round_is_random():
+        game.next_round()  # randomize start_seat
     lights_on()
-    game_state.set_status(game_state.STATUS_RUNNING)
+    game.set_status(game.STATUS_RUNNING)
     update_game_state()
 
 
@@ -107,15 +72,15 @@ def play(value1, value2):
 def pause(value1, value2):
     print("pause {} {}".format(value1, value2))
     lights_off()
-    game_state.set_status(game_state.STATUS_PAUSED)
+    game.set_status(game.STATUS_PAUSED)
     update_game_state()
 
 
 def stop(value1, value2):
     print("stop {} {}".format(value1, value2))
     lights_off()
-    game_state.reset()
-    game_state.set_status(game_state.STATUS_STOPPED)
+    game.reset()
+    game.set_status(game.STATUS_STOPPED)
     update_game_state()
 
 
@@ -127,39 +92,32 @@ def shutdown(value1, value2):
 
 # ==== web calls ---- settings state
 def seat(number, value2):
-    global active_seats
-    index = int(number) - 1
-    active_seats[index] = not active_seats[index]
+    settings.toggle_seat_active(int(number))
     update_settings_state()
 
 
 def starting_player_fr(value1, value2):
-    global starting_player_first_round
-    starting_player_first_round = value1
+    settings.starting_player_first_round = value1
     update_settings_state()
 
 
 def starting_player_cr(value1, value2):
-    global starting_player_consecutive_rounds
-    starting_player_consecutive_rounds = value1
+    settings.starting_player_consecutive_rounds = value1
     update_settings_state()
 
 
 def game_round_fto(value1, value2):
-    global game_round_first_turn_order
-    game_round_first_turn_order = value1
+    settings.game_round_first_turn_order = value1
     update_settings_state()
 
 
 def game_round_ec(value1, value2):
-    global game_round_end_condition
-    game_round_end_condition = value1
+    settings.game_round_end_condition = value1
     update_settings_state()
 
 
 def game_round_cto(value1, value2):
-    global game_round_consecutive_turn_order
-    game_round_consecutive_turn_order = value1
+    settings.game_round_consecutive_turn_order = value1
     update_settings_state()
 
 

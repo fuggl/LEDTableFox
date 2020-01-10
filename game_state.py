@@ -33,3 +33,11 @@ def reset():
     action_round = 0
     start_seat = 0
     active_seat = 0
+
+
+def update(setter):
+    setter("status", status)
+    setter("game_round", game_round)
+    setter("action_round", action_round)
+    setter("start_seat", start_seat)
+    setter("active_seat", active_seat)

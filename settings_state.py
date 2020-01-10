@@ -32,6 +32,10 @@ def toggle_seat_active(seat_number):
     active_seats[index] = not active_seats[index]
 
 
+def seat_is_active(seat_number):
+    return active_seats[seat_number - 1]
+
+
 def starting_player_first_round_is_first_to_input():
     return starting_player_first_round == STARTING_PLAYER_FR_FIRST_INPUT
 

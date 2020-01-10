@@ -35,12 +35,16 @@ def set_color(first=0, led_count=strip.numPixels(), color=Color(0, 0, 0, 0), sho
         strip.setPixelColor(led, color)
         led += 1
     if show:
-        strip.show()
+        show_changes()
 
 
 def set_seat_color(seat_nr, color, show=True):
     seat_idx = seat_nr - 1
     set_color(SEAT_LED_START[seat_idx], SEAT_LED_COUNT[seat_idx], color, show)
+
+
+def show_changes():
+    strip.show()
 
 
 def regular_led_count_per_seat():

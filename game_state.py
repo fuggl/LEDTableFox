@@ -48,6 +48,10 @@ def next_round():
     game_round += 1
 
 
+def next_player(seat):
+    return  # TODO: next
+
+
 def pass_player(seat):
     return  # TODO: pass
 

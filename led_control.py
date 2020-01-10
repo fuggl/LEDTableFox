@@ -29,40 +29,46 @@ def show_active_seat():
         led.set_seat_color(game.active_seat, COLOR_ACTIVE)
 
 
-def lights_off():
-    led.set_color(color=COLOR_OFF)
-
-
 def lights_on():
     led.set_color(color=COLOR_DEFAULT)
     show_active_seat()
 
 
-def first_input():
-    return
+def lights_off():
+    led.set_color(color=COLOR_OFF)
 
 
 def player_next(invoker_seat):
+    game.next_player(invoker_seat)
+    # set invoker color to default if player is not active after button press
+    if not game.seat_is_active(invoker_seat):
+        led.set_seat_color(invoker_seat, COLOR_DEFAULT)
+    show_active_seat()
     update_game_state()
 
 
 def player_pass(invoker_seat):
+    # pass pressed by active player -> pass and next
     if game.seat_is_active(invoker_seat):
         game.pass_player(invoker_seat)
         led.set_seat_color(invoker_seat, COLOR_PASSED)
         show_active_seat()
+    # pass pressed by inactive player -> undo pass or ignore
     else:
         game.undo_pass(invoker_seat)
         led.set_seat_color(invoker_seat, COLOR_DEFAULT)
     update_game_state()
 
 
-def button_pressed(seat_idx, button_idx):
-    if game.is_running():
-        if button_idx > 1 and settings.game_round_end_condition_is_pass():  # pass functionality
-            player_pass(seat_idx)
-        elif game.seat_is_active(seat_idx):  # next functionality
-            player_next(seat_idx)
+def button_pressed(seat_number, button_idx):
+    # ignore if game is paused or stopped, or pressed button belongs to inactive seat
+    if game.is_running() and settings.seat_is_active(seat_number):
+        # pass functionality: pass button is pressed and game supports pass
+        if button_idx > 1 and settings.game_round_end_condition_is_pass():
+            player_pass(seat_number)
+        # next functionality: pass functionality not used and seat belongs to active player
+        elif game.seat_is_active(seat_number):
+            player_next(seat_number)
 
 
 # ==== web calls ---- game state

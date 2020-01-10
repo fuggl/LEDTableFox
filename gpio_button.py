@@ -6,7 +6,7 @@ BUTTON_2_CHANNEL = [17, 22, 24, 21, 26, 6]  # right buttons
 BUTTON_IDX_LEFT = 1
 BUTTON_IDX_RIGHT = 2
 
-SEAT_IDX = {}
+SEAT_NUMBERS = {}
 BUTTON_IDX = {}
 
 
@@ -23,7 +23,7 @@ def register(button_callback):
 
 
 def button_press(channel):
-    listener(SEAT_IDX[channel], BUTTON_IDX[channel])
+    listener(SEAT_NUMBERS[channel], BUTTON_IDX[channel])
 
 
 def setup_button(channel):
@@ -36,15 +36,15 @@ def setup_button_interrupt(channel):
 
 def init():
     GPIO.setmode(GPIO.BCM)
-    global SEAT_IDX, BUTTON_IDX
+    global SEAT_NUMBERS, BUTTON_IDX
     i = 0
     while i < len(BUTTON_1_CHANNEL):
         # add button channels with current seat
-        seat_index = i + 1
+        seat_number = i + 1
         channel_b1 = BUTTON_1_CHANNEL[i]
         channel_b2 = BUTTON_2_CHANNEL[i]
-        SEAT_IDX[channel_b1] = seat_index
-        SEAT_IDX[channel_b2] = seat_index
+        SEAT_NUMBERS[channel_b1] = seat_number
+        SEAT_NUMBERS[channel_b2] = seat_number
         # add button channels with button index
         BUTTON_IDX[channel_b1] = BUTTON_IDX_LEFT
         BUTTON_IDX[channel_b2] = BUTTON_IDX_RIGHT

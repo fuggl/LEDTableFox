@@ -43,11 +43,15 @@ def lights_off():
 
 
 def player_next(invoker_seat):
+    game_round = game.game_round
     game.next_player(invoker_seat)
-    # set invoker color to default if player is not active after button press
-    if not game.seat_is_active(invoker_seat):
-        led.set_seat_color(invoker_seat, COLOR_DEFAULT)
-    show_active_seat()
+    if game_round == game.game_round:
+        # set invoker color to default if player is not active after button press
+        if not game.seat_is_active(invoker_seat):
+            led.set_seat_color(invoker_seat, COLOR_DEFAULT)
+        show_active_seat()
+    else:
+        lights_on()
     update_game_state()
 
 
@@ -55,9 +59,13 @@ def player_pass(invoker_seat):
     # pass pressed by active player -> pass and next
     if game.seat_is_active(invoker_seat):
         game.pass_player(invoker_seat)
+        game_round = game.game_round
         game.next_player(invoker_seat)
-        led.set_seat_color(invoker_seat, COLOR_PASSED)
-        show_active_seat()
+        if game_round == game.game_round:
+            led.set_seat_color(invoker_seat, COLOR_PASSED)
+            show_active_seat()
+        else:
+            lights_on()
     # pass pressed by inactive player -> undo pass or ignore
     else:
         game.undo_pass(invoker_seat)

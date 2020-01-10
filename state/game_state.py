@@ -15,6 +15,14 @@ def is_running():
     return status == STATUS_RUNNING
 
 
+def is_paused():
+    return status == STATUS_PAUSED
+
+
+def is_stopped():
+    return status == STATUS_STOPPED
+
+
 def has_active_seat():
     return active_seat > 0
 

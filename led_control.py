@@ -106,38 +106,44 @@ def shutdown(value1, value2):
 # ==== web calls ---- settings state
 def seat(number, value2):
     ignore(value2)
-    settings.toggle_seat_active(int(number))
-    update_settings_state()
+    if game.is_stopped():
+        settings.toggle_seat_active(int(number))
+        update_settings_state()
 
 
 def starting_player_fr(value1, value2):
     ignore(value2)
-    settings.starting_player_first_round = value1
-    update_settings_state()
+    if game.is_stopped():
+        settings.starting_player_first_round = value1
+        update_settings_state()
 
 
 def starting_player_cr(value1, value2):
     ignore(value2)
-    settings.starting_player_consecutive_rounds = value1
-    update_settings_state()
+    if game.game_round < 2:
+        settings.starting_player_consecutive_rounds = value1
+        update_settings_state()
 
 
 def game_round_fto(value1, value2):
     ignore(value2)
-    settings.game_round_first_turn_order = value1
-    update_settings_state()
+    if game.is_stopped():
+        settings.game_round_first_turn_order = value1
+        update_settings_state()
 
 
 def game_round_ec(value1, value2):
     ignore(value2)
-    settings.game_round_end_condition = value1
-    update_settings_state()
+    if game.is_stopped():
+        settings.game_round_end_condition = value1
+        update_settings_state()
 
 
 def game_round_cto(value1, value2):
     ignore(value2)
-    settings.game_round_consecutive_turn_order = value1
-    update_settings_state()
+    if game.game_round < 2:
+        settings.game_round_consecutive_turn_order = value1
+        update_settings_state()
 
 
 # ==== web calls ---- testing

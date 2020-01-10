@@ -2,7 +2,7 @@ import sys
 
 from gpio import led_test as led, button_test as button
 from connect import websocket as web
-from state import settings_state as settings, game_state as game
+from state import game_state as game
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
@@ -19,7 +19,7 @@ def update_game_state():
 
 
 def update_settings_state():
-    settings.update(web.set_state)
+    game.settings.update(web.set_state)
 
 
 def show_active_seat():
@@ -66,13 +66,13 @@ def player_pass(invoker_seat):
 
 
 def button_pressed(seat_number, button_idx):
-    # ignore if game is paused or stopped, or pressed button belongs to inactive seat
-    if game.is_running() and settings.seat_is_active(seat_number):
+    # ignore if game is paused or stopped, or pressed button belongs to unused seat
+    if game.is_running() and game.settings.seat_is_used(seat_number):
         # pass functionality: pass button is pressed and game supports pass
-        if button_idx > 1 and settings.game_round_end_condition_is_pass():
+        if button_idx > 1 and game.settings.game_round_end_condition_is_pass():
             player_pass(seat_number)
-        # next functionality: pass functionality not used and seat belongs to active player
-        elif game.seat_is_active(seat_number):
+        # next functionality: pass functionality not used and seat belongs to active player or there is no active player
+        elif game.seat_is_active(seat_number) or game.active_seat == 0:
             player_next(seat_number)
 
 
@@ -80,7 +80,7 @@ def button_pressed(seat_number, button_idx):
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
     if game.waiting_for_start():
-        game.start(settings.active_seats, settings.starting_player_first_round_is_random())
+        game.start()
     lights_on()
     game.set_status(game.STATUS_RUNNING)
     update_game_state()
@@ -112,49 +112,49 @@ def shutdown(value1, value2):
 def seat(number, value2):
     ignore(value2)
     if game.is_stopped():
-        settings.toggle_seat_active(int(number))
+        game.settings.toggle_seat_used(int(number))
         update_settings_state()
 
 
 def starting_player_fr(value1, value2):
     ignore(value2)
     if game.is_stopped():
-        settings.starting_player_first_round = value1
+        game.settings.starting_player_first_round = value1
         update_settings_state()
 
 
 def starting_player_cr(value1, value2):
     ignore(value2)
     if game.game_round < 2:
-        settings.starting_player_consecutive_rounds = value1
+        game.settings.starting_player_consecutive_rounds = value1
         update_settings_state()
 
 
 def game_round_fto(value1, value2):
     ignore(value2)
     if game.is_stopped():
-        settings.game_round_first_turn_order = value1
+        game.settings.game_round_first_turn_order = value1
         update_settings_state()
 
 
 def game_round_ec(value1, value2):
     ignore(value2)
     if game.is_stopped():
-        settings.game_round_end_condition = value1
+        game.settings.game_round_end_condition = int(value1)
         update_settings_state()
 
 
 def game_round_cto(value1, value2):
     ignore(value2)
     if game.game_round < 2:
-        settings.game_round_consecutive_turn_order = value1
+        game.settings.game_round_consecutive_turn_order = value1
         update_settings_state()
 
 
 # ==== web calls ---- testing
 def button_press(value1, value2):
     print("pressing button {}, {}".format(value1, value2))
-    button_pressed(int(value1), value2)
+    button_pressed(int(value1), int(value2))
 
 
 CALLS = {

@@ -3,21 +3,12 @@ import sys
 import gpio_button_test as button
 import gpio_led_test as led
 import websocket as web
+import game_state
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
-
-STATUS_RUNNING = 0
-STATUS_PAUSED = 1
-STATUS_STOPPED = 2
-
-status = STATUS_STOPPED
-game_round = 0
-action_round = 0
-start_seat = 0
-active_seat = 0
 
 active_seats = [True, True, True, True, True, True]
 
@@ -48,11 +39,11 @@ game_round_consecutive_turn_order = GAME_ROUND_CTO_SAME
 
 
 def update_game_state():
-    web.set_state("status", status)
-    web.set_state("game_round", game_round)
-    web.set_state("action_round", action_round)
-    web.set_state("start_seat", start_seat)
-    web.set_state("active_seat", active_seat)
+    web.set_state("status", game_state.status)
+    web.set_state("game_round", game_state.game_round)
+    web.set_state("action_round", game_state.action_round)
+    web.set_state("start_seat", game_state.start_seat)
+    web.set_state("active_seat", game_state.active_seat)
 
 
 def update_settings_state():
@@ -74,15 +65,16 @@ def lights_on():
         led.set_seat_color(active_seat, COLOR_ACTIVE)
 
 
-def next_round():
-    global game_round
-    game_round += 1
-    update_game_state()
+def first_input():
+    return
 
 
 def button_pressed(seat_idx, button_idx):
-    if status != STATUS_RUNNING:
+    if not game_state.is_running():
         return
+    if not game_state.waiting_for_start():
+        first_input()
+    #elif
     global start_seat, active_seat
     # check if this is the first round
     if start_seat == 0:
@@ -92,7 +84,7 @@ def button_pressed(seat_idx, button_idx):
     # only continue if seat is viable for input
     elif seat_idx == active_seat:
         if seat_idx == start_seat:
-            next_round()
+            game_state.next_round()
         active_seat = seat_idx - 1
         if active_seat < 1:
             active_seat = 6
@@ -101,24 +93,13 @@ def button_pressed(seat_idx, button_idx):
         # print ("{} {}".format(seat,button))
 
 
-def set_status(new_status):
-    global status
-    status = new_status
-
-
-def reset():
-    global game_round, action_round, start_seat, active_seat
-    game_round = 0
-    action_round = 0
-    start_seat = 0
-    active_seat = 0
-
-
 # ==== web calls ---- game state
 def play(value1, value2):
     print("play {} {}".format(value1, value2))
+    if not game_state.is_running() and starting_player_first_round == STARTING_PLAYER_FR_RANDOM:
+        game_state.next_round()  # randomize start_seat
     lights_on()
-    set_status(STATUS_RUNNING)
+    game_state.set_status(game_state.STATUS_RUNNING)
     update_game_state()
 
 
@@ -126,15 +107,15 @@ def play(value1, value2):
 def pause(value1, value2):
     print("pause {} {}".format(value1, value2))
     lights_off()
-    set_status(STATUS_PAUSED)
+    game_state.set_status(game_state.STATUS_PAUSED)
     update_game_state()
 
 
 def stop(value1, value2):
     print("stop {} {}".format(value1, value2))
     lights_off()
-    reset()
-    set_status(STATUS_STOPPED)
+    game_state.reset()
+    game_state.set_status(game_state.STATUS_STOPPED)
     update_game_state()
 
 

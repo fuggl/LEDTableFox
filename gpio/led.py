@@ -28,7 +28,7 @@ def setup_led_strips():
     strip.begin()
 
 
-def set_color(first=0, led_count=strip.numPixels(), color=Color(0, 0, 0, 0), show=True):
+def set_color(first=0, led_count=LED_COUNT, color=Color(0, 0, 0, 0), show=True):
     led = first
     end = first + led_count
     while led < end:

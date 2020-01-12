@@ -5,6 +5,7 @@ from connect import websocket as web
 from state import game_state as game
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
+COLOR_SHUTDOWN = led.Color(0, 0, 0, 40)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
@@ -113,6 +114,7 @@ def stop(value1, value2):
 # turn off lights and shutdown raspberry pi
 def shutdown(value1, value2):
     print("shutdown {} {}".format(value1, value2))
+    led.set_color(color=COLOR_SHUTDOWN)
     sys.exit(0)
 
 

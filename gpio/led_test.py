@@ -1,4 +1,4 @@
-from rpi_ws281x import Color, PixelStrip, ws
+from rpi_ws281x import Color, ws
 
 # LED strip configuration:
 LED_COUNT = 240  # Number of LED pixels.

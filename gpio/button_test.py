@@ -1,7 +1,7 @@
 
 
 def register(button_callback):
-    return
+    return button_callback
 
 
 def init():

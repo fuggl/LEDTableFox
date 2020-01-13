@@ -1,7 +1,7 @@
 import sys
 
-from gpio import led_test as led, button_test as button
 from connect import websocket as web
+from gpio import led_test as led, button_test as button
 from state import game_state as game
 
 COLOR_OFF = led.Color(0, 0, 0, 0)
@@ -23,19 +23,18 @@ def update_settings_state():
     game.settings.update(web.set_state)
 
 
-def show_active_seat():
-    if game.has_active_seat():
-        led.set_seat_color(game.active_seat, COLOR_ACTIVE)
+def update_seat_color(player_seat, show):
+    if game.order.player_has_passed(player_seat):
+        led.set_seat_color(player_seat, COLOR_PASSED, show)
+    elif game.order.is_active_player(player_seat):
+        led.set_seat_color(player_seat, COLOR_ACTIVE, show)
+    else:
+        led.set_seat_color(player_seat, COLOR_DEFAULT, show)
 
 
 def lights_on():
-    for player_seat in game.seats:
-        if game.seat_has_passed(player_seat):
-            led.set_seat_color(player_seat, COLOR_PASSED, show=False)
-        elif game.seat_is_active(player_seat):
-            led.set_seat_color(player_seat, COLOR_ACTIVE, show=False)
-        else:
-            led.set_seat_color(player_seat, COLOR_DEFAULT, show=False)
+    for player_seat in game.order.player_state:
+        update_seat_color(player_seat, show=False)
     led.show_changes()
 
 
@@ -43,46 +42,25 @@ def lights_off():
     led.set_color(color=COLOR_OFF)
 
 
-def player_next(invoker_seat):
+def monitor_changes(player_seat, call):
     game_round = game.game_round
-    game.next_player(invoker_seat)
-    if game_round == game.game_round:
-        # set invoker color to default if player is not active after button press
-        if not game.seat_is_active(invoker_seat):
-            led.set_seat_color(invoker_seat, COLOR_DEFAULT)
-        show_active_seat()
-    else:
+    call(player_seat)
+    if game_round != game.game_round:
         lights_on()
-    update_game_state()
-
-
-def player_pass(invoker_seat):
-    # pass pressed by active player -> pass and next
-    if game.seat_is_active(invoker_seat):
-        game.pass_player(invoker_seat)
-        game_round = game.game_round
-        game.next_player(invoker_seat)
-        if game_round == game.game_round:
-            led.set_seat_color(invoker_seat, COLOR_PASSED)
-            show_active_seat()
-        else:
-            lights_on()
-    # pass pressed by inactive player -> undo pass or ignore
     else:
-        game.undo_pass(invoker_seat)
-        led.set_seat_color(invoker_seat, COLOR_DEFAULT)
-    update_game_state()
+        update_seat_color(player_seat, show=False)
+        if game.order.has_active_player() and not game.order.is_active_player(player_seat):
+            update_seat_color(game.order.active_player_seat(), show=False)
+        led.show_changes()
 
 
 def button_pressed(seat_number, button_idx):
-    # ignore if game is paused or stopped, or pressed button belongs to unused seat
     if game.is_running() and game.settings.seat_is_used(seat_number):
-        # pass functionality: pass button is pressed and game supports pass
-        if button_idx > 1 and game.settings.game_round_end_condition_is_pass():
-            player_pass(seat_number)
-        # next functionality: pass functionality not used and seat belongs to active player or there is no active player
-        elif game.seat_is_active(seat_number) or game.active_seat == 0:
-            player_next(seat_number)
+        if button_idx == button.BUTTON_IDX_LEFT:
+            monitor_changes(seat_number, game.next_button)
+        else:
+            monitor_changes(seat_number, game.pass_button)
+    update_game_state()
 
 
 # ==== web calls ---- game state

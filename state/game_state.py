@@ -87,8 +87,9 @@ def increment_action_round():
 
 
 def increment_game_round():
-    global game_round
+    global game_round, action_round
     game_round += 1
+    action_round = 1
 
 
 def game_round_end_condition_is_met():
@@ -113,6 +114,7 @@ def end_active_player_turn():
     if order.is_active_player(order.starting_player_seat()):
         increment_action_round()
     if game_round_end_condition_is_met():
+        increment_game_round()
         choose_starting_player()
         choose_order()
 
@@ -129,7 +131,6 @@ def add_player_to_order(player_seat):
 
 def start():
     order.init_player_state(settings.seat_use)
-    increment_action_round()
     increment_game_round()
     first_round_starting_player[settings.starting_player_first_round]()
     first_round_order[settings.game_round_first_turn_order]()

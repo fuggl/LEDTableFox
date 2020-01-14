@@ -80,34 +80,35 @@
       <input class="seat w3-button w3-border" type="button" name="seat" value=6>
     </form>
     <hr style="width:200px" class="w3-opacity">
-    <h2 class="w3-text-light-grey">Starting Player</h2>
-    <h3 class="w3-text-light-grey">First Round</h3>
+    <h2 class="w3-text-light-grey">First Round</h2>
+    <h3 class="w3-text-light-grey">Starting Player</h3>
     <form>
       <input class="sp_fr w3-button w3-border" type="button" name="starting_player_fr" value="first input">
       <input class="sp_fr w3-button w3-border" type="button" name="starting_player_fr" value="random">
     </form>
-    <h3 class="w3-text-light-grey">Consecutive Rounds</h3>
+    <h3 class="w3-text-light-grey">Turn Order</h3>
+    <form>
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="clockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="counterclockwise">
+      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="specific">
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">End Condition</h2>
+    <form>
+      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="every player passes">
+      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="after n action rounds">
+      <input class="w3-input w3-padding-6" type="number" name="game_round_ec" min="0" value=1 id="gr_ec_nr">
+    </form>
+    <hr style="width:200px" class="w3-opacity">
+    <h2 class="w3-text-light-grey">Consecutive Rounds</h2>
+    <h3 class="w3-text-light-grey">Starting Player</h3>
     <form>
       <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="same">
       <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="rotating">
       <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="first input">
       <input class="sp_cr w3-button w3-border" type="button" name="starting_player_cr" value="random">
     </form>
-    <hr style="width:200px" class="w3-opacity">
-    <h2 class="w3-text-light-grey">Game Round</h2>
-    <h3 class="w3-text-light-grey">First Turn Order</h3>
-    <form>
-      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="clockwise">
-      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="counterclockwise">
-      <input class="gr_fto w3-button w3-border" type="button" name="game_round_fto" value="specific">
-    </form>
-    <h3 class="w3-text-light-grey">End Condition</h3>
-    <form>
-      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="every player passes">
-      <input class="gr_ec w3-button w3-border" type="button" name="game_round_ec" value="after n action rounds"><br>
-      <input class="w3-input w3-padding-6" type="number" name="game_round_ec" min="0" value=1 id="gr_ec_nr">
-    </form>
-    <h3 class="w3-text-light-grey">Consecutive Turn Orders</h3>
+    <h3 class="w3-text-light-grey">Turn Order</h3>
     <form>
       <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="same">
       <input class="gr_cto w3-button w3-border" type="button" name="game_round_cto" value="reversed">

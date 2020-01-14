@@ -16,14 +16,14 @@ def do_nothing():
 
 # ==== starting player
 first_round_starting_player = {
-    settings.STARTING_PLAYER_FR_FIRST_INPUT(): order.reset(),
-    settings.STARTING_PLAYER_FR_RANDOM(): order.random_starting_player()
+    settings.STARTING_PLAYER_FR_FIRST_INPUT: order.reset,
+    settings.STARTING_PLAYER_FR_RANDOM: order.random_starting_player
 }
 consecutive_round_starting_player = {
-    settings.STARTING_PLAYER_CR_SAME: order.same_stating_player(),
-    settings.STARTING_PLAYER_CR_ROTATING: order.rotating_starting_player(),
-    settings.STARTING_PLAYER_CR_FIRST_INPUT: order.reset(),
-    settings.STARTING_PLAYER_CR_RANDOM: order.random_starting_player()
+    settings.STARTING_PLAYER_CR_SAME: order.same_stating_player,
+    settings.STARTING_PLAYER_CR_ROTATING: order.rotating_starting_player,
+    settings.STARTING_PLAYER_CR_FIRST_INPUT: order.reset,
+    settings.STARTING_PLAYER_CR_RANDOM: order.random_starting_player
 }
 
 
@@ -37,16 +37,16 @@ def reverse_order():
 
 
 first_round_order = {
-    settings.GAME_ROUND_FTO_CLOCKWISE: order.clockwise(),
-    settings.GAME_ROUND_FTO_COUNTERCLOCKWISE: order.counterclockwise(),
-    settings.GAME_ROUND_FTO_SPECIFIC: do_nothing()
+    settings.GAME_ROUND_FTO_CLOCKWISE: order.clockwise,
+    settings.GAME_ROUND_FTO_COUNTERCLOCKWISE: order.counterclockwise,
+    settings.GAME_ROUND_FTO_SPECIFIC: do_nothing
 }
 consecutive_round_order = {
-    settings.GAME_ROUND_CTO_SAME: same_order(),
-    settings.GAME_ROUND_CTO_REVERSE: reverse_order(),
-    settings.GAME_ROUND_CTO_SPECIFIC: do_nothing(),
-    settings.GAME_ROUND_CTO_PASS_FIFO: order.pass_fifo(),
-    settings.GAME_ROUND_CTO_PASS_LIFO: order.pass_lifo()
+    settings.GAME_ROUND_CTO_SAME: same_order,
+    settings.GAME_ROUND_CTO_REVERSE: reverse_order,
+    settings.GAME_ROUND_CTO_SPECIFIC: do_nothing,
+    settings.GAME_ROUND_CTO_PASS_FIFO: order.pass_fifo,
+    settings.GAME_ROUND_CTO_PASS_LIFO: order.pass_lifo
 }
 
 
@@ -128,6 +128,7 @@ def add_player_to_order(player_seat):
 
 
 def start():
+    order.init_player_state(settings.seat_use)
     increment_action_round()
     increment_game_round()
     first_round_starting_player[settings.starting_player_first_round]()

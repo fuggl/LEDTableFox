@@ -73,6 +73,15 @@ def every_player_has_passed():
 
 
 # ==== setters
+# == setters: init
+def init_player_state(seat_use):
+    player_seat = 0
+    for used in seat_use:
+        player_seat += 1
+        if used:
+            player_state[player_seat] = PLAYER_WAITING
+
+
 # == setters: reset
 def reset_pass_order():
     player_pass_order.clear()
@@ -87,8 +96,8 @@ def reset():
 # == setters: player
 def add_player(player_seat):
     global active_player_index
+    active_player_index = len(player_order)
     player_order.append(player_seat)
-    active_player_index = len(player_order) - 1
 
 
 def cycle_player():
@@ -132,17 +141,35 @@ def random_starting_player():
 
 
 # ==== order
+def roll_order(reference_list):
+    index = reference_list.index(starting_player_seat())
+    size = len(reference_list)
+    for x in range(size - 1):  # -1 for starting player, who is already in order
+        index += 1
+        if index == size:
+            index = 0
+        player_order.append(reference_list[index])
+
+
 def clockwise():
-    return  # TODO create order
+    if has_starting_player():
+        keys = list(player_state.keys())
+        keys.reverse()
+        roll_order(keys)
 
 
 def counterclockwise():
-    return  # TODO create order
+    if has_starting_player():
+        keys = list(player_state.keys())
+        roll_order(keys)
 
 
 def pass_fifo():
-    return  # TODO create order
+    global player_order
+    player_order = player_pass_order.copy()
 
 
 def pass_lifo():
-    return  # TODO create order
+    global player_order
+    player_order = player_pass_order.copy()
+    player_order.reverse()

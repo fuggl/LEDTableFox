@@ -1,4 +1,4 @@
-used_seats = [True, True, True, True, True, True]
+seat_use = [True, True, True, True, True, True]
 
 STARTING_PLAYER_FR_FIRST_INPUT = 0
 STARTING_PLAYER_FR_RANDOM = 1
@@ -26,14 +26,18 @@ GAME_ROUND_CTO_PASS_LIFO = 4
 game_round_consecutive_turn_order = GAME_ROUND_CTO_SAME
 
 
+def to_index(seat_number):
+    return seat_number - 1
+
+
 def toggle_seat_used(seat_number):
-    global used_seats
-    index = seat_number - 1
-    used_seats[index] = not used_seats[index]
+    global seat_use
+    index = to_index(seat_number)
+    seat_use[index] = not seat_use[index]
 
 
 def seat_is_used(seat_number):
-    return used_seats[seat_number - 1]
+    return seat_use[to_index(seat_number)]
 
 
 def starting_player_first_round_is_first_to_input():
@@ -97,7 +101,7 @@ def game_round_consecutive_turn_order_is_pass_order_lifo():
 
 
 def update(setter):
-    setter("used_seats", used_seats)
+    setter("used_seats", seat_use)
     setter("starting_player_first_round", starting_player_first_round)
     setter("starting_player_consecutive_rounds", starting_player_consecutive_rounds)
     setter("game_round_first_turn_order", game_round_first_turn_order)

@@ -138,7 +138,7 @@ def start():
 def next_button(player_seat):
     if order.is_active_player(player_seat):
         end_active_player_turn()
-    elif order.has_active_player():
+    elif not order.has_active_player():
         add_player_to_order(player_seat)
 
 

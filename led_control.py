@@ -55,7 +55,7 @@ def monitor_changes(player_seat, call):
 
 
 def button_pressed(seat_number, button_idx):
-    if game.is_running() and game.settings.seat_is_used(seat_number):
+    if game.is_running() and game.settings.seat_is_in_use(seat_number):
         if button_idx == button.BUTTON_IDX_LEFT:
             monitor_changes(seat_number, game.next_button)
         else:

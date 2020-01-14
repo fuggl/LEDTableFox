@@ -36,7 +36,7 @@ def toggle_seat_used(seat_number):
     seat_use[index] = not seat_use[index]
 
 
-def seat_is_used(seat_number):
+def seat_is_in_use(seat_number):
     return seat_use[to_index(seat_number)]
 
 

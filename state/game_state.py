@@ -84,12 +84,17 @@ def set_status(new_status):
 def increment_action_round():
     global action_round
     action_round += 1
+    order.reset_player_turn_counter()
 
 
 def increment_game_round():
     global game_round, action_round
     game_round += 1
     action_round = 1
+
+
+def action_round_end_condition_is_met():
+    return order.player_turn_count() == order.player_count()
 
 
 def game_round_end_condition_is_met():
@@ -110,14 +115,16 @@ def choose_order():
     else:
         consecutive_round_order[settings.game_round_consecutive_turn_order]()
     order.reset_pass()
+    order.reset_player_turn_counter()
 
 
 def end_active_player_turn():
+    order.increment_player_turn_counter()
     if not order.every_player_has_passed():
         order.cycle_player()
         while order.player_has_passed(order.active_player_seat()):
             order.cycle_player()
-    if order.is_active_player(order.starting_player_seat()):
+    if action_round_end_condition_is_met():
         increment_action_round()
     if game_round_end_condition_is_met():
         increment_game_round()
@@ -164,8 +171,9 @@ def reset():
     global game_round, action_round
     game_round = 0
     action_round = 0
-    order.reset()
+    order.reset_player_turn_counter()
     order.reset_pass()
+    order.reset()
 
 
 def update(setter):

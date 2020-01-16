@@ -176,6 +176,7 @@ def same_stating_player():
 
 def rotating_starting_player():
     new_starting_player_seat = player_order[1]
+    # TODO fix: on reverse order the starting player rotates back and forth
     reset_player_order()
     add_active_player(new_starting_player_seat)
 

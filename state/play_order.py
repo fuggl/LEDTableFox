@@ -136,9 +136,13 @@ def reset():
 
 # == setters: player
 def add_player(player_seat):
+    player_order.append(player_seat)
+
+
+def add_active_player(player_seat):
     global active_player_index
     active_player_index = players_in_order()
-    player_order.append(player_seat)
+    add_player(player_seat)
 
 
 def cycle_player():
@@ -167,18 +171,18 @@ def undo_pass(player_seat):
 def same_stating_player():
     old_starting_player_seat = starting_player_seat()
     reset_player_order()
-    add_player(old_starting_player_seat)
+    add_active_player(old_starting_player_seat)
 
 
 def rotating_starting_player():
     new_starting_player_seat = player_order[1]
     reset_player_order()
-    add_player(new_starting_player_seat)
+    add_active_player(new_starting_player_seat)
 
 
 def random_starting_player():
     reset_player_order()
-    add_player(random_player_seat())
+    add_active_player(random_player_seat())
 
 
 # ==== order

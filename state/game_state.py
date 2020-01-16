@@ -132,19 +132,22 @@ def end_active_player_turn():
         choose_order()
 
 
-def finish_order_if_possible():
+def finish_order_if_one_player_left():
     if order.players_missing() == 1:
-        return
+        for player_seat in order.player_state.keys():
+            if not order.player_is_in_order(player_seat):
+                order.add_player(player_seat)
+                return
 
 
 def add_player_to_order(player_seat):
     if not order.has_starting_player():
-        order.add_player(player_seat)
+        order.add_active_player(player_seat)
         choose_order()
-        # TODO check for last in order
+        finish_order_if_one_player_left()
     elif not order.player_is_in_order(player_seat):
-        order.add_player(player_seat)
-        # TODO check for last in order
+        order.add_active_player(player_seat)
+        finish_order_if_one_player_left()
 
 
 def start():

@@ -33,12 +33,20 @@ def same_order():
 
 
 def reverse_order():
-    return
+    if (game_round % 2) == 0:
+        first_round_order_reversed[settings.game_round_first_turn_order]()
+    else:
+        first_round_order[settings.game_round_first_turn_order]()
 
 
 first_round_order = {
     settings.GAME_ROUND_FTO_CLOCKWISE: order.clockwise,
     settings.GAME_ROUND_FTO_COUNTERCLOCKWISE: order.counterclockwise,
+    settings.GAME_ROUND_FTO_SPECIFIC: do_nothing
+}
+first_round_order_reversed = {
+    settings.GAME_ROUND_FTO_CLOCKWISE: order.counterclockwise,
+    settings.GAME_ROUND_FTO_COUNTERCLOCKWISE: order.clockwise,
     settings.GAME_ROUND_FTO_SPECIFIC: do_nothing
 }
 consecutive_round_order = {

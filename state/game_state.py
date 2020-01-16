@@ -16,13 +16,13 @@ def do_nothing():
 
 # ==== starting player
 first_round_starting_player = {
-    settings.STARTING_PLAYER_FR_FIRST_INPUT: order.reset,
+    settings.STARTING_PLAYER_FR_FIRST_INPUT: order.reset_player_order,
     settings.STARTING_PLAYER_FR_RANDOM: order.random_starting_player
 }
 consecutive_round_starting_player = {
     settings.STARTING_PLAYER_CR_SAME: order.same_stating_player,
     settings.STARTING_PLAYER_CR_ROTATING: order.rotating_starting_player,
-    settings.STARTING_PLAYER_CR_FIRST_INPUT: order.reset,
+    settings.STARTING_PLAYER_CR_FIRST_INPUT: order.reset_player_order,
     settings.STARTING_PLAYER_CR_RANDOM: order.random_starting_player
 }
 
@@ -132,6 +132,11 @@ def end_active_player_turn():
         choose_order()
 
 
+def finish_order_if_possible():
+    if order.players_missing() == 1:
+        return
+
+
 def add_player_to_order(player_seat):
     if not order.has_starting_player():
         order.add_player(player_seat)
@@ -171,8 +176,6 @@ def reset():
     global game_round, action_round
     game_round = 0
     action_round = 0
-    order.reset_player_turn_counter()
-    order.reset_pass()
     order.reset()
 
 

@@ -30,6 +30,10 @@ def player_order_is_complete():
     return players_in_order() == player_count()
 
 
+def players_missing():
+    return player_count() - players_in_order()
+
+
 # == info: starting player
 def has_starting_player():
     return players_in_order() > 0
@@ -101,6 +105,17 @@ def increment_player_turn_counter():
 
 
 # == setters: reset
+def reset_player_turn_counter():
+    global player_turn_counter
+    player_turn_counter = player_passed_count()
+
+
+def reset_player_order():
+    global active_player_index
+    active_player_index = -1
+    player_order.clear()
+
+
 def reset_pass():
     if player_passed_count() > 0:
         player_pass_order.clear()
@@ -108,21 +123,21 @@ def reset_pass():
             player_state[player_seat] = PLAYER_WAITING
 
 
-def reset_player_turn_counter():
-    global player_turn_counter
-    player_turn_counter = player_passed_count()
+def reset_player_state():
+    player_state.clear()
 
 
 def reset():
-    global active_player_index
-    active_player_index = -1
-    player_order.clear()
+    reset_player_turn_counter()
+    reset_player_order()
+    reset_pass()
+    reset_player_state()
 
 
 # == setters: player
 def add_player(player_seat):
     global active_player_index
-    active_player_index = len(player_order)
+    active_player_index = players_in_order()
     player_order.append(player_seat)
 
 
@@ -130,7 +145,7 @@ def cycle_player():
     global active_player_index
     if player_order_is_complete():
         active_player_index += 1
-        if active_player_index >= len(player_order):
+        if active_player_index >= players_in_order():
             active_player_index = 0
     else:
         active_player_index = -1
@@ -151,18 +166,18 @@ def undo_pass(player_seat):
 # ==== starting player
 def same_stating_player():
     old_starting_player_seat = starting_player_seat()
-    reset()
+    reset_player_order()
     add_player(old_starting_player_seat)
 
 
 def rotating_starting_player():
     new_starting_player_seat = player_order[1]
-    reset()
+    reset_player_order()
     add_player(new_starting_player_seat)
 
 
 def random_starting_player():
-    reset()
+    reset_player_order()
     add_player(random_player_seat())
 
 

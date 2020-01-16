@@ -11,9 +11,13 @@ player_pass_order = []
 
 
 # ==== info
+def players_in_order():
+    return len(player_order)
+
+
 # == info: starting player
 def has_starting_player():
-    return len(player_order) > 0
+    return players_in_order() > 0
 
 
 def starting_player_seat():
@@ -56,11 +60,13 @@ def player_is_in_order(player_seat):
 
 
 def player_order_is_complete():
-    return len(player_order) == player_count()
+    return players_in_order() == player_count()
 
 
 # == info: passing
 def player_has_passed(player_seat):
+    if player_seat < 1:
+        return False
     return player_state[player_seat] == PLAYER_PASSED
 
 
@@ -83,8 +89,11 @@ def init_player_state(seat_use):
 
 
 # == setters: reset
-def reset_pass_order():
-    player_pass_order.clear()
+def reset_pass():
+    if player_passed_count() > 0:
+        player_pass_order.clear()
+        for player_seat in player_state:
+            player_state[player_seat] = PLAYER_WAITING
 
 
 def reset():

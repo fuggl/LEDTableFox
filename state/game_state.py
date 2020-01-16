@@ -105,12 +105,18 @@ def choose_starting_player():
 
 
 def choose_order():
-    consecutive_round_order[settings.game_round_consecutive_turn_order]()
-    order.reset_pass_order()
+    if is_first_game_round():
+        first_round_order[settings.game_round_first_turn_order]()
+    else:
+        consecutive_round_order[settings.game_round_consecutive_turn_order]()
+    order.reset_pass()
 
 
 def end_active_player_turn():
+    # if not order.every_player_has_passed():
     order.cycle_player()
+    # while order.player_has_passed(order.active_player_seat()):
+    #     order.cycle_player()
     if order.is_active_player(order.starting_player_seat()):
         increment_action_round()
     if game_round_end_condition_is_met():
@@ -124,7 +130,7 @@ def add_player_to_order(player_seat):
         order.add_player(player_seat)
         choose_order()
         # TODO check for last in order
-    elif order.player_is_in_order(player_seat):
+    elif not order.player_is_in_order(player_seat):
         order.add_player(player_seat)
         # TODO check for last in order
 
@@ -133,7 +139,7 @@ def start():
     order.init_player_state(settings.seat_use)
     increment_game_round()
     first_round_starting_player[settings.starting_player_first_round]()
-    first_round_order[settings.game_round_first_turn_order]()
+    choose_order()
 
 
 def next_button(player_seat):
@@ -159,11 +165,12 @@ def reset():
     game_round = 0
     action_round = 0
     order.reset()
-    order.reset_pass_order()
+    order.reset_pass()
 
 
 def update(setter):
     setter("seat_order", str(order.player_order).strip('[]'))
+    setter("pass_order", str(order.player_pass_order).strip('[]'))
     setter("status", status)
     setter("game_round", game_round)
     setter("action_round", action_round)

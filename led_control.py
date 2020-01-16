@@ -91,9 +91,10 @@ def stop(value1, value2):
 
 # turn off lights and shutdown raspberry pi
 def shutdown(value1, value2):
-    print("shutdown {} {}".format(value1, value2))
-    led.set_color(color=COLOR_SHUTDOWN)
-    sys.exit(0)
+    if game.is_stopped():
+        print("shutdown {} {}".format(value1, value2))
+        led.set_color(color=COLOR_SHUTDOWN)
+        sys.exit(0)
 
 
 # ==== web calls ---- settings state

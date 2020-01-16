@@ -113,10 +113,10 @@ def choose_order():
 
 
 def end_active_player_turn():
-    # if not order.every_player_has_passed():
-    order.cycle_player()
-    # while order.player_has_passed(order.active_player_seat()):
-    #     order.cycle_player()
+    if not order.every_player_has_passed():
+        order.cycle_player()
+        while order.player_has_passed(order.active_player_seat()):
+            order.cycle_player()
     if order.is_active_player(order.starting_player_seat()):
         increment_action_round()
     if game_round_end_condition_is_met():

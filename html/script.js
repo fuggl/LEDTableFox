@@ -6,6 +6,7 @@ var seats = document.getElementsByClassName('seat'),
     start_seat = document.getElementById('start_seat'),
     active_seat = document.getElementById('active_seat'),
     seat_order = document.getElementById('seat_order'),
+    pass_order = document.getElementById('pass_order'),
     status1 = document.getElementsByClassName('status1'),
     status2 = document.getElementsByClassName('status2'),
     seats = document.getElementsByClassName('seat'),
@@ -86,6 +87,7 @@ websocket.onmessage = function (event) {
             start_seat.textContent = data.start_seat
             active_seat.textContent = data.active_seat
             seat_order.textContent = data.seat_order
+            pass_order.textContent = data.pass_order
             select(seats, data.used_seats)
             select_state_item(sp_fr, data.starting_player_first_round)
             select_state_item(sp_cr, data.starting_player_consecutive_rounds)

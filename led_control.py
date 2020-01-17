@@ -1,4 +1,5 @@
 import sys
+from subprocess import call
 
 from connect import websocket as web
 from gpio import led_test as led, button_test as button
@@ -94,6 +95,7 @@ def shutdown(value1, value2):
     if game.is_stopped():
         print("shutdown {} {}".format(value1, value2))
         led.set_color(color=COLOR_SHUTDOWN)
+        call("sudo shutdown -h 0", shell=True)
         sys.exit(0)
 
 

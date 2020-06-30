@@ -1,3 +1,4 @@
+import asyncio
 import sys
 from subprocess import call
 
@@ -10,6 +11,8 @@ COLOR_SHUTDOWN = led.Color(0, 0, 0, 40)
 COLOR_DEFAULT = led.Color(0, 0, 255, 0)
 COLOR_ACTIVE = led.Color(0, 255, 0, 0)
 COLOR_PASSED = led.Color(255, 146, 0, 0)
+
+event_loop = None
 
 
 def ignore(value):
@@ -43,9 +46,9 @@ def lights_off():
     led.set_color(color=COLOR_OFF)
 
 
-def monitor_changes(player_seat, call):
+def monitor_changes(player_seat, call_fct):
     game_round = game.game_round
-    call(player_seat)
+    call_fct(player_seat)
     if game_round != game.game_round:
         lights_on()
     else:
@@ -56,12 +59,7 @@ def monitor_changes(player_seat, call):
 
 
 def button_pressed(seat_number, button_idx):
-    if game.is_running() and game.settings.seat_is_in_use(seat_number):
-        if button_idx == button.BUTTON_IDX_LEFT:
-            monitor_changes(seat_number, game.next_button)
-        else:
-            monitor_changes(seat_number, game.pass_button)
-    update_game_state()
+    event_loop.call_soon_threadsafe(button_press, seat_number, button_idx)
 
 
 # ==== web calls ---- game state
@@ -142,10 +140,16 @@ def game_round_cto(value1, value2):
         update_settings_state()
 
 
-# ==== web calls ---- testing
+# ==== web calls ---- GPIO input
 def button_press(value1, value2):
-    print("pressing button {}, {}".format(value1, value2))
-    button_pressed(int(value1), int(value2))
+    seat_number = int(value1)
+    button_idx = int(value2)
+    if game.is_running() and game.settings.seat_is_in_use(seat_number):
+        if button_idx == button.BUTTON_IDX_LEFT:
+            monitor_changes(seat_number, game.next_button)
+        else:
+            monitor_changes(seat_number, game.pass_button)
+    update_game_state()
 
 
 CALLS = {
@@ -168,6 +172,7 @@ def consume(action, value1, value2):
 
 
 if __name__ == '__main__':
+    event_loop = asyncio.get_event_loop()
     button.init()
     led.init()
     button.register(button_pressed)
